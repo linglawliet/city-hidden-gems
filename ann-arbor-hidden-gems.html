@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ann Arbor Hidden Gems</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@200;300;400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1b2d;
+    --midnight: #060e1a;
+    --gold: #d4a843;
+    --amber: #e8b84b;
+    --muted-gold: #9a7a35;
+    --cream: #f2ead8;
+    --warm: #ede5cf;
+    --light-text: #c8bfa8;
+    --border: rgba(212,168,67,0.2);
+    --card-bg: #111f33;
+    --card-hover: #162640;
+    --rust: #c4572a;
+    --sage: #5a7a60;
+    --maize: #ffcb05;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--midnight);
+    color: var(--cream);
+    font-family: 'EB Garamond', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+    background: var(--midnight);
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(212,168,67,0.07) 0%, transparent 70%),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(212,168,67,0.04) 79px, rgba(212,168,67,0.04) 80px),
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(212,168,67,0.04) 79px, rgba(212,168,67,0.04) 80px);
+  }
+
+  .masthead-eyebrow {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    animation: fadeUp 1s ease both;
+  }
+
+  .masthead-city {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(70px, 15vw, 160px);
+    line-height: 0.85;
+    letter-spacing: -4px;
+    color: var(--cream);
+    animation: fadeUp 1s 0.1s ease both;
+    position: relative;
+    z-index: 1;
+  }
+
+  .masthead-city .accent {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .masthead-state {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: clamp(11px, 1.5vw, 14px);
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    color: var(--muted-gold);
+    margin-top: 16px;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+
+  .masthead-rule {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 32px auto;
+    width: 280px;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+  .masthead-rule::before, .masthead-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .masthead-rule-diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .masthead-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(15px, 2vw, 18px);
+    line-height: 1.9;
+    color: var(--light-text);
+    max-width: 500px;
+    font-style: italic;
+    animation: fadeUp 1s 0.4s ease both;
+  }
+
+  .masthead-tag {
+    display: inline-block;
+    margin-top: 36px;
+    padding: 10px 28px;
+    border: 1px solid var(--border);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    animation: fadeUp 1s 0.5s ease both;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted-gold);
+    animation: pulse 2s infinite;
+  }
+
+  /* ── NAV ── */
+  .nav-tabs {
+    display: flex;
+    overflow-x: auto;
+    background: var(--navy);
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 18px 28px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-right: 1px solid var(--border);
+    transition: all 0.25s;
+    color: var(--light-text);
+    white-space: nowrap;
+  }
+  .nav-tab:hover:not(.active) {
+    color: var(--cream);
+    background: rgba(212,168,67,0.05);
+  }
+  .nav-tab.active {
+    color: var(--gold);
+    background: rgba(212,168,67,0.08);
+    border-bottom: 2px solid var(--gold);
+  }
+
+  /* ── SECTIONS ── */
+  .section { display: none; animation: fadeIn 0.35s ease; }
+  .section.active { display: block; }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    padding: 64px 48px 40px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 32px;
+    align-items: end;
+    background: linear-gradient(to bottom, var(--navy), var(--midnight));
+  }
+
+  .section-roman {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 100px;
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(212,168,67,0.25);
+    user-select: none;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(36px, 5vw, 58px);
+    line-height: 1.05;
+    color: var(--cream);
+  }
+
+  .section-subtitle {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 10px;
+  }
+
+  /* ── CARDS ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+
+  .card {
+    padding: 36px 36px 30px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--card-bg);
+    transition: background 0.25s;
+  }
+  .card:hover { background: var(--card-hover); }
+
+  .card-line {
+    width: 28px;
+    height: 2px;
+    margin-bottom: 18px;
+  }
+
+  .card-tag {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .card-desc {
+    font-family: 'EB Garamond', serif;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--light-text);
+    margin-bottom: 18px;
+  }
+
+  .card-tip {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 2px solid var(--gold);
+    padding: 10px 14px;
+    background: rgba(212,168,67,0.06);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--light-text);
+    margin-bottom: 18px;
+  }
+
+  .tip-mark { color: var(--gold); flex-shrink: 0; font-style: normal; }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .meta-pill {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    color: var(--light-text);
+    text-transform: uppercase;
+  }
+
+  .meta-rating {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+    background: rgba(212,168,67,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(212,168,67,0.3);
+  }
+
+  /* ── INTRO BANNER ── */
+  .intro-banner {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, var(--navy) 0%, #0d2240 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 44px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .intro-banner-bar {
+    width: 3px;
+    background: linear-gradient(to bottom, var(--gold), var(--muted-gold));
+    align-self: stretch;
+    flex-shrink: 0;
+    min-height: 60px;
+  }
+
+  .intro-banner p {
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--light-text);
+    font-style: italic;
+  }
+
+  .intro-banner strong {
+    font-style: normal;
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  /* ── WELCOME ── */
+  .welcome-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  @media (max-width: 700px) {
+    .welcome-grid { grid-template-columns: 1fr; }
+    .welcome-visual { min-height: 260px; }
+    .section-header { padding: 36px 24px 28px; grid-template-columns: 1fr; gap: 8px; }
+    .section-roman { font-size: 60px; }
+    .card { padding: 24px 20px 20px; }
+    .intro-banner { padding: 28px 20px; }
+  }
+
+  .welcome-text {
+    padding: 80px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    background: var(--navy);
+  }
+
+  .welcome-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.15;
+    margin-bottom: 28px;
+    color: var(--cream);
+  }
+
+  .welcome-text h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .welcome-text p {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    line-height: 2;
+    color: var(--light-text);
+    margin-bottom: 18px;
+  }
+
+  .welcome-cta {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 8px;
+  }
+
+  .welcome-visual {
+    background: var(--midnight);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .welcome-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(212,168,67,0.06) 0%, transparent 70%);
+  }
+
+  .block-M {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: clamp(140px, 22vw, 240px);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(212,168,67,0.3);
+    user-select: none;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -8px;
+  }
+
+  .welcome-coords {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted-gold);
+    margin-top: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--midnight);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 56px 24px;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 36px;
+    color: var(--gold);
+    letter-spacing: 6px;
+    margin-bottom: 16px;
+  }
+
+  footer p {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted-gold);
+    opacity: 0.6;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-eyebrow">A Hidden Gems Field Guide · Michigan</div>
+  <h1 class="masthead-city">Ann<br><span class="accent">Arbor</span></h1>
+  <div class="masthead-state">The Tree City · Washtenaw County · MI</div>
+  <div class="masthead-rule"><div class="masthead-rule-diamond"></div></div>
+  <p class="masthead-desc">Where a world-class university meets an extraordinarily independent spirit — a city that rewards those who wander off the main drag.</p>
+  <div class="masthead-tag">✦ A Curated Local Companion ✦</div>
+  <div class="scroll-hint">Explore ↓</div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('welcome')">序言</button>
+  <button class="nav-tab" onclick="showSection('food')">🍽 餐饮</button>
+  <button class="nav-tab" onclick="showSection('coffee')">☕ 咖啡</button>
+  <button class="nav-tab" onclick="showSection('nature')">🌿 自然</button>
+  <button class="nav-tab" onclick="showSection('culture')">🎨 文化艺术</button>
+  <button class="nav-tab" onclick="showSection('books')">📚 书店</button>
+  <button class="nav-tab" onclick="showSection('drinks')">🥂 酒吧</button>
+</nav>
+
+<!-- WELCOME -->
+<section class="section active" id="welcome">
+  <div class="welcome-grid">
+    <div class="welcome-text">
+      <h2>欢迎来到<br><em>Ann Arbor，</em><br>你的新家园。</h2>
+      <p>Ann Arbor 是一座不太像自己名字的城市——没有太多花哨的行销，却有着惊人的文化密度：世界顶尖的大学、五家独立书店、数十个自然保护区、以及一个在"不起眼"外表下悸动着的美食宇宙。</p>
+      <p>这本指南是写给<strong>真正的居民</strong>的。不是游客清单，而是一张私人藏宝图——每一处都值得成为你的"常去地"。</p>
+      <p class="welcome-cta">点击上方标签，开始探索 ↑</p>
+    </div>
+    <div class="welcome-visual">
+      <div class="block-M">A²</div>
+      <div class="welcome-coords">
+        42°16′N · 83°44′W<br>
+        Ann Arbor, Michigan
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOD -->
+<section class="section" id="food">
+  <div class="section-header">
+    <div class="section-roman">I</div>
+    <div>
+      <h2 class="section-title">值得<br>绕路的餐桌</h2>
+      <div class="section-subtitle">Restaurants · Hidden Kitchens · Seasonal Menus</div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="intro-banner">
+      <div class="intro-banner-bar"></div>
+      <p>Ann Arbor 的餐饮生态惊人地多元——大学城的活力带来了全球各地的风味，而本地主厨们对食材来源的执着，让这里的独立餐厅往往比大城市的同类更有诚意。许多餐厅季节性换菜单，值得反复造访。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Brunch · Farm-to-Table</div>
+      <div class="card-name">The Hen Ann Arbor</div>
+      <div class="card-desc">E Washington St 上排队也值得的早午餐名店，整体系风格清新明亮。Waffle Flight 是独特的尝鲜体验，Avocado Toast、Breakfast Tacos 和 Grain Bowl 皆是水准之作。菜单丰富，荤素皆宜。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>点餐后落座，运转效率极高。周末人气爆棚，建议早到。甜品区常被忽视，别错过。</div>
+      <div class="card-meta">
+        <span class="meta-pill">403 E Washington St</span>
+        <span class="meta-pill">Thu–Sun</span>
+        <span class="meta-rating">★ 4.5</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Fine Dining · Chef's Counter</div>
+      <div class="card-name">Echelon Kitchen and Bar</div>
+      <div class="card-desc">S Main St 上的 Art Deco 气质精品餐厅，7道菜品鉴菜单是 Ann Arbor 最高水准的餐饮体验之一。菜单随季节更迭，Chef's Counter 可以近距离观摩厨房运作。Shellfish Bisque 和 Root Vegetable Dessert 是传奇。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>特殊场合首选。酒单和鸡尾酒同样出色，服务极为专业。可无预约早到尝试。</div>
+      <div class="card-meta">
+        <span class="meta-pill">200 S Main St</span>
+        <span class="meta-pill">Wed–Sun from 4pm</span>
+        <span class="meta-rating">★ 4.6</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Mediterranean · Fusion · Colorful</div>
+      <div class="card-name">Spiedo</div>
+      <div class="card-desc">5th Ave 上一家色彩缤纷、菜单令人惊喜的地中海融合小馆，将中东、韩式和印度风味糅合得恰到好处。Zhoug Chicken Rice Bowl、Party Potatoes 和 Chocolate Tahini Shake 是招牌三件套。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>Spiedo 酱令人上瘾，务必多要一份。午市 Happy Hour 外带性价比极高。</div>
+      <div class="card-meta">
+        <span class="meta-pill">307 S 5th Ave</span>
+        <span class="meta-pill">Daily 11am–9pm</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Cuban · Street Food · Milkshakes</div>
+      <div class="card-name">Frita Batidos</div>
+      <div class="card-desc">W Washington St 上的古巴风格街头美食馆，Frita（古巴汉堡配细薯条）是一种会让人反复回忆的味道。Batido 奶昔——椰子、巧克力、香草——是完美配角。周五周六营业到午夜。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>要求薯条放旁边（on the side）能保持最佳酥脆度。Chipotle Mayo 加量不后悔。</div>
+      <div class="card-meta">
+        <span class="meta-pill">117 W Washington St</span>
+        <span class="meta-pill">Daily 11am–11pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Wings · Biscuits · Carry-Out</div>
+      <div class="card-name">Side Biscuit</div>
+      <div class="card-desc">Packard St 上的神秘外卖小店，被食客称为"密歇根最佳鸡翅"——甚至有人专程从纽约布法罗驱车前来。每种风味都精准调味，酱料线上多元，Biscuit of the Week 是惊喜彩蛋。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>仅外卖，座位有限。下单前可以让员工给你试酱料——他们乐于分享。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1232 Packard St</span>
+        <span class="meta-pill">Wed–Sun from 4pm</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Seasonal · Bakery · Farm Kitchen</div>
+      <div class="card-name">The Dixboro Project</div>
+      <div class="card-desc">Plymouth Rd 上的全季节性农场餐厅，菜单随产季完全更新——这意味着每次来都是新体验。Butterfly Hot Tea 变色效果令人惊叹，Polenta Fries 是隐藏冠军，附带烘焙坊，香蕉巧克力马芬是必买。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>夏季户外席位很美。价格偏高但有其诚意，注意账单有 3% 可持续附加费。</div>
+      <div class="card-meta">
+        <span class="meta-pill">5400 Plymouth Rd</span>
+        <span class="meta-pill">Daily 11am–10pm</span>
+        <span class="meta-rating">★ 4.4</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">French Brasserie · Hotel Bar</div>
+      <div class="card-name">La Serre</div>
+      <div class="card-desc">Glen Ave 上 Vanguard Hotel 内的法式酒馆，壁炉旁沙发是冬夜最浪漫的位置。Branzino 出乎意料地精彩，Steak Frites 是经典水准，Oysters 新鲜度可靠。Valet 停车方便。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>预订靠近壁炉的沙发区，并问一问那道"法式花生酱果冻三明治"的故事——你不会失望。</div>
+      <div class="card-meta">
+        <span class="meta-pill">213 Glen Ave</span>
+        <span class="meta-pill">Daily 7am–11pm</span>
+        <span class="meta-rating">★ 4.3</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COFFEE -->
+<section class="section" id="coffee">
+  <div class="section-header">
+    <div class="section-roman">II</div>
+    <div>
+      <h2 class="section-title">每日<br>咖啡仪式</h2>
+      <div class="section-subtitle">Specialty Coffee · Tea Houses · All-Day Cafés</div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="intro-banner">
+      <div class="intro-banner-bar"></div>
+      <p>Ann Arbor 的咖啡文化由<strong>大学城的好奇心</strong>驱动——从也门传统茶室到精品单品豆工坊，从深夜开放的鸡尾酒咖啡混搭到街角的学生据点，每家都有自己鲜明的个性。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Yemeni Coffee & Tea · Late Night</div>
+      <div class="card-name">Jabal Coffee House</div>
+      <div class="card-desc">E Huron St 上的也门咖啡馆，灯光氛围绝佳，自然光区和私密角落可自由选择。Adeni Tea 用精美玻璃杯端上，Taro Cloud Matcha Latte 是意外惊喜。周五周六营业到午夜。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>适合独处读书或约会。甜点水准和饮品同级，不要只点饮料。</div>
+      <div class="card-meta">
+        <span class="meta-pill">341 E Huron St</span>
+        <span class="meta-pill">Fri–Sat until midnight</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Yemeni Coffee · Desserts</div>
+      <div class="card-name">Socotra Coffee House</div>
+      <div class="card-desc">Packard St 上的也门咖啡馆，以肉桂豆蔻 Cafe Latte 和开心果芝士蛋糕闻名。Adeni Chai 在 Ann Arbor 被认为是最佳版本之一。桌上的正能量留言是温柔的小细节。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>停车位充足（相对少见），室内外皆有座位。Mofawar 咖啡是男士最爱的隐藏款。</div>
+      <div class="card-meta">
+        <span class="meta-pill">3130 Packard St</span>
+        <span class="meta-pill">Daily 8am–midnight</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Specialty Roaster · Coffee Flights</div>
+      <div class="card-name">Vertex Coffee Roasters</div>
+      <div class="card-desc">S University Ave 上的精品咖啡小店，Coffee Flight 是必点体验——四款不同风格的咖啡一次品尽。糖浆全部自制，La Marzocco 机器出品扎实。店内有书租借盒，适合边读边喝。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>空间不大但氛围绝佳。来之前看好时间，下午 5 点关门，比多数咖啡馆早。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1335 S University Ave</span>
+        <span class="meta-pill">Daily 7am–5pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Third Place · Downtown</div>
+      <div class="card-name">Hyperion Coffee Co</div>
+      <div class="card-desc">W Liberty St 上的"真正第三空间"，barista 对咖啡的理解深入但不卖弄。Medium Roast Single Origin 是常客钟爱的方向，户外座位在夏季绝佳。适合长时工作或聊天。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>进去后主动问 barista 最近的豆子状态，他们乐于给你讲解。不喝咖啡的人，茶饮也可圈可点。</div>
+      <div class="card-meta">
+        <span class="meta-pill">111 W Liberty St</span>
+        <span class="meta-pill">Daily 7am–6pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Cocktails + Coffee · Late Night</div>
+      <div class="card-name">1824 Cocktails & Coffee</div>
+      <div class="card-desc">E Huron St 上极具设计感的空间——高挑天花板、木质装饰，既是白天咖啡馆，也是夜晚鸡尾酒吧。周六从上午 11 点就开始营业，周五周六可玩到午夜。可以在同一张桌子从早到晚。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>工作日晚间特别适合"从咖啡切换到鸡尾酒"的过渡，完全不用换地方。</div>
+      <div class="card-meta">
+        <span class="meta-pill">413 E Huron St Suite C</span>
+        <span class="meta-pill">Tue–Sun</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Bagels · Pour Over · Neighborhood</div>
+      <div class="card-name">The Drip House Coffee</div>
+      <div class="card-desc">S Main St 上大窗明亮的社区咖啡馆，正对密歇根大学大型标志，是球赛日前后的完美落脚点。Pour Over 出品稳定，Almond Croissant 是招牌点心，工作人员热情亲切。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>早上 6:30 就开门，是 Ann Arbor 最早的咖啡馆之一。停车稍难，步行前往更佳。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1336 S Main St</span>
+        <span class="meta-pill">Daily from 6:30am</span>
+        <span class="meta-rating">★ 4.4</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NATURE -->
+<section class="section" id="nature">
+  <div class="section-header">
+    <div class="section-roman">III</div>
+    <div>
+      <h2 class="section-title">城市里<br>的自然秘境</h2>
+      <div class="section-subtitle">Nature Areas · Trails · River Parks</div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="intro-banner">
+      <div class="intro-banner-bar"></div>
+      <p>Ann Arbor 拥有超过 <strong>160 个公园和自然保护区</strong>，远超同体量城市的平均水平。Huron River 穿城而过，串联起众多绿色秘境。最好的探索方式：骑车或步行，带上一本书和一杯咖啡。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">University Arboretum · Peony Garden</div>
+      <div class="card-name">The Arboretum (The Arb)</div>
+      <div class="card-desc">密歇根大学的植物园兼自然保护区，是 Ann Arbor 本地人的精神后花园。五月牡丹园盛开时是全城最美的景象。Huron River 从园中流过，可在浅滩涉水。免费入场，停车充足。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>牡丹盛开通常在五月中旬，工作日人更少。秋色同样令人窒息，是摄影的绝佳地点。</div>
+      <div class="card-meta">
+        <span class="meta-pill">Ann Arbor, MI 48109</span>
+        <span class="meta-pill">Free · Always Open</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">River · Dam · Kayak Launch</div>
+      <div class="card-name">Barton Nature Area</div>
+      <div class="card-desc">Huron River 最上游的城市公园，有水坝、冬季冰冻景观、独特的树干攀爬结构，以及极佳的钓鱼和皮划艇下水点。蘑菇、毛茸茸的蚜虫和各种水鸟是自然观察的常客。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>带皮划艇来可以顺流而下，一路连接多个自然区。冬天结冰的水坝有别样的苍茫美感。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1010 W Huron River Dr</span>
+        <span class="meta-pill">Daily 6am–10pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Hilly Trails · Bird Watching</div>
+      <div class="card-name">Bird Hills Nature Area</div>
+      <div class="card-desc">Newport Rd 入口的城市徒步秘境，地形起伏丰富，植被覆盖密，适合跑步和中强度徒步。与 Huron River 附近的步道相连，可延伸成半日行程。鸟类种类繁多，是观鸟者的心头好。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>路径较复杂，建议离线下载地图。出发方向从 Newport Rd 入口，进入内部后公路噪音消散，进入真正的宁静。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1850 Newport Rd</span>
+        <span class="meta-pill">Daily 7am–10pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">River · Frisbee Golf · Bike Trail</div>
+      <div class="card-name">Bandemer Nature Area</div>
+      <div class="card-desc">Lake Shore Dr 上紧邻高速的城市绿洲，却意外宁静。皮划艇 / 独木舟下水点、飞盘高尔夫球场、爱情锁桥，与 Argo Park 步道相连，秋叶期间是散步的最佳去处。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>夏季在此野餐，用公共烧烤架。靠近 Argo Park 可组成完整的河边半日游。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1352 Lake Shore Dr</span>
+        <span class="meta-pill">Daily 6am–10pm</span>
+        <span class="meta-rating">★ 4.6</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Nature Preserve · Wildlife</div>
+      <div class="card-name">Furstenberg Nature Area</div>
+      <div class="card-desc">Fuller Rd 上被本地人视为"最爱公园"的隐秘保护区，与 Gallup Park 相连，有貂、鹿、浣熊、各类水鸟出没。步道多样，有捐赠纪念长椅，冬季在结冰河面上行走是独特体验。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>有加热厕所——冬季徒步者的奢侈享受。连接 Gallup Park 后步道可延伸很长，带上充足时间。</div>
+      <div class="card-meta">
+        <span class="meta-pill">2626 Fuller Rd</span>
+        <span class="meta-pill">Daily 6am–10pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Hidden Pond · Birding</div>
+      <div class="card-name">Black Pond Woods</div>
+      <div class="card-desc">Traver Rd 上几乎无人知晓的小型自然区，丘陵地形、弯绕小径，紧邻 Leslie Science & Nature Center 的猛禽区。社区花园、自然游乐场、夏季甚至有鸡——是观察生态的迷你天堂。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>日落前一小时是最佳观鸟时间，蜜蜂、蝴蝶和各类植物正在恢复性生长，每次来都有不同发现。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1905 Traver Rd</span>
+        <span class="meta-pill">Daily 6am–10pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE -->
+<section class="section" id="culture">
+  <div class="section-header">
+    <div class="section-roman">IV</div>
+    <div>
+      <h2 class="section-title">文化艺术<br>的呼吸空间</h2>
+      <div class="section-subtitle">Museums · Galleries · Art Centers · Live Events</div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="intro-banner">
+      <div class="intro-banner-bar"></div>
+      <p>Ann Arbor 的文化生态以大学为核心，但并不局限于此。<strong>UMMA 免费开放</strong>，艺术中心定期举办工作坊，而 Hill Auditorium 的古典音乐演出是密歇根音乐人最引以为傲的场地。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">University Art Museum · Free</div>
+      <div class="card-name">UM Museum of Art (UMMA)</div>
+      <div class="card-desc">密歇根大学的世界级艺术博物馆，馆藏涵盖印象派、现代艺术和亚洲艺术，包含四幅毕加索原作。永久免费入场，周四周五延长至晚 8 点，适合下班后顺路造访。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>常设展览结构清晰，特展更换频繁。工作人员乐于讲解。拍照自由，是摄影爱好者的福音。</div>
+      <div class="card-meta">
+        <span class="meta-pill">525 S State St</span>
+        <span class="meta-pill">Tue–Sun · Free</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Community Art Center · Workshops</div>
+      <div class="card-name">Ann Arbor Art Center (A2AC)</div>
+      <div class="card-desc">W Liberty St 上的社区艺术中心，既是画廊也是工作坊空间。陶艺约会之夜、版画制作、绘画课程——是认识本地艺术社群最快的切入口，也是团队活动的绝佳场地。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>陶艺 Date Night 评价极高，强烈推荐和朋友或伴侣一起来。画廊每日开放，随时可免费参观。</div>
+      <div class="card-meta">
+        <span class="meta-pill">117 W Liberty St</span>
+        <span class="meta-pill">Daily 10am–7pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Independent Art Gallery</div>
+      <div class="card-name">Gutman Gallery</div>
+      <div class="card-desc">N 4th Ave 上的精品画廊，展示本地及新兴艺术家的绘画、摄影、陶瓷、玻璃艺术和纺织品，价格亲民而品质出众。每次造访都有轮换展览，是寻找独一无二礼物的好地方。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>员工知识渊博且不施压，是真正能坐下来聊艺术的地方。停车提前规划，附近车位紧俏。</div>
+      <div class="card-meta">
+        <span class="meta-pill">118 N 4th Ave</span>
+        <span class="meta-pill">Wed–Sat 11am–5pm</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Local Artists · Photography</div>
+      <div class="card-name">Makeshift Gallery</div>
+      <div class="card-desc">E Liberty St 上由摄影师 Jack Kenny 创立的小型画廊，专注展示本地艺术家作品，每位作品背后都有真实的故事。主人亲切健谈，是了解 Ann Arbor 本地艺术生态的私密窗口。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>不定期开放，建议提前联系确认。如果赶上开门，绝对值得进去聊一聊。</div>
+      <div class="card-meta">
+        <span class="meta-pill">407 E Liberty St</span>
+        <span class="meta-pill">Hours Vary</span>
+        <span class="meta-rating">★ 4.9</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Farmers Market · Saturday Ritual</div>
+      <div class="card-name">Ann Arbor Farmers Market</div>
+      <div class="card-desc">Kerrytown 区每周六上午举行的户外市集，是 Ann Arbor 最重要的社区仪式之一。本地农场、手工果酱、鲜花、烘焙，以及认识邻居的最好机会。周三也有小型市集。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>早上 7 点到早市是本地人的习惯——人少、菜最新鲜。带布袋，准备满载而归。春季到感恩节前运营。</div>
+      <div class="card-meta">
+        <span class="meta-pill">315 Detroit St · Kerrytown</span>
+        <span class="meta-pill">Sat 7am · Wed 8am</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section class="section" id="books">
+  <div class="section-header">
+    <div class="section-roman">V</div>
+    <div>
+      <h2 class="section-title">书店<br>之城</h2>
+      <div class="section-subtitle">Independent Bookstores · Used Books · Specialty</div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="intro-banner">
+      <div class="intro-banner-bar"></div>
+      <p>Ann Arbor 被誉为<strong>美国最佳书城之一</strong>，拥有密度惊人的独立书店——新书、旧书、Beat Generation、灵性读物、儿童绘本，每一家都是独立的宇宙。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">New Books · Events · Downtown</div>
+      <div class="card-name">Literati Bookstore</div>
+      <div class="card-desc">E Washington St 上三层楼的独立书店，是 Ann Arbor 书店生态的旗舰。Staff Picks 从不让人失望，有公共打字机和精选文具。自然类书目尤其出色，作者活动频繁。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>周五营业到晚 9 点。打字机区是拍照和留下只言片语的好地方。</div>
+      <div class="card-meta">
+        <span class="meta-pill">124 E Washington St</span>
+        <span class="meta-pill">Daily 10am–9pm</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Used Books · Treasure Hunt</div>
+      <div class="card-name">The Dawn Treader Book Shop</div>
+      <div class="card-desc">E Liberty St 上的大型旧书殿堂，书架直冲天花板，历史类藏书尤为丰富（尤以一战二战和欧洲史为盛）。被资深书迷誉为"美国最好的旧书店之一"，每次来都有新发现。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>店主知识渊博，告诉他你的阅读兴趣，他会给你指路。每周都有新入库，值得成为常客。</div>
+      <div class="card-meta">
+        <span class="meta-pill">514 E Liberty St</span>
+        <span class="meta-pill">Daily 11am–8pm</span>
+        <span class="meta-rating">★ 4.8</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Beat Generation · Collectible Books</div>
+      <div class="card-name">Third Mind Books</div>
+      <div class="card-desc">E Washington St 上专注 Beat Generation 文学和相关艺术的精品书店，William Burroughs、Jack Kerouac、Allen Ginsberg 在此找到归宿。Owner Arthur 是活的文学百科，进来聊几句是额外的奖赏。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>收藏稀缺版本和绝版书的最佳去处。如果你喜欢文学史，这里是朝圣地。周日下午 5 点关门，早去。</div>
+      <div class="card-meta">
+        <span class="meta-pill">118 E Washington St</span>
+        <span class="meta-pill">Daily 11am–8pm</span>
+        <span class="meta-rating">★ 4.9</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Spiritual · Metaphysical · Tea Café</div>
+      <div class="card-name">Crazy Wisdom Bookstore</div>
+      <div class="card-desc">S Main St 上的灵性读物与生活方式书店，二楼有茶咖啡空间，偶尔有塔罗牌占卜师驻场。精油、水晶、神谕牌、心理学书籍一应俱全，是 Ann Arbor 最有个性的空间之一。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>二楼茶馆是安静读书的宝藏角落。周五营业至晚 10 点。作者分享活动和冥想课程是融入社群的好方式。</div>
+      <div class="card-meta">
+        <span class="meta-pill">114 S Main St</span>
+        <span class="meta-pill">Daily 11am–10pm</span>
+        <span class="meta-rating">★ 4.9</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Neighborhood Bookstore · Kids</div>
+      <div class="card-name">Booksweet</div>
+      <div class="card-desc">Plymouth Rd 上温馨的社区书店，儿童区是其灵魂所在——"神秘包装书"系列让小朋友凭直觉选书，收获惊喜。店员对书单推荐极为用心，是多元选书的标杆。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>与附近的 Cardamom 餐厅组合是完美的周末午后安排。贴纸墙是小朋友最爱的角落。</div>
+      <div class="card-meta">
+        <span class="meta-pill">1729 Plymouth Rd</span>
+        <span class="meta-pill">Daily 11am–8pm</span>
+        <span class="meta-rating">★ 4.9</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Curated Used · Fine Prints</div>
+      <div class="card-name">Motte & Bailey Booksellers</div>
+      <div class="card-desc">N 4th Ave 上仅凭 Gene 一人打理的精品旧书店，严格筛选入库，每本都有其价值。世界史和美国史藏书令人叹为观止。周日不营业，其余每天可登门淘宝。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>告诉 Gene 你的阅读方向，他的记忆力惊人，下次来他会记得你。停车可用对面地面停车场。</div>
+      <div class="card-meta">
+        <span class="meta-pill">212 N 4th Ave</span>
+        <span class="meta-pill">Mon–Sat 10am–7pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DRINKS -->
+<section class="section" id="drinks">
+  <div class="section-header">
+    <div class="section-roman">VI</div>
+    <div>
+      <h2 class="section-title">夜幕之后<br>该去哪里</h2>
+      <div class="section-subtitle">Cocktail Bars · Speakeasies · Neighborhood Pubs</div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="intro-banner">
+      <div class="intro-banner-bar"></div>
+      <p>Ann Arbor 的夜晚因密歇根大学而充满活力，但城市也有属于<strong>大人的安静角落</strong>——精心调制的鸡尾酒、地窖式 Speakeasy、精酿啤酒花园，不同的夜晚需要不同的推门而入。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Speakeasy · Craft Cocktails</div>
+      <div class="card-name">The Last Word</div>
+      <div class="card-desc">W Huron St 上的精品鸡尾酒吧，暗调、温暖、不做作——是 Ann Arbor 最被本地人珍视的夜间去处之一。Islay Sour 是传奇，服务员甚至会为外地客人手写其他城市的餐厅推荐。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>在吧台点单，告诉调酒师你的口味偏好，他们的即兴创作远超菜单。周日不营业。</div>
+      <div class="card-meta">
+        <span class="meta-pill">301 W Huron St</span>
+        <span class="meta-pill">Mon–Sat from 5pm</span>
+        <span class="meta-rating">★ 4.7</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Neighborhood Bar · Local History</div>
+      <div class="card-name">The Hidden King</div>
+      <div class="card-desc">S Main St 上满分 5.0 的社区酒吧，以 Ann Arbor 历史照片装饰，棋盘可以在喝酒时大战一局。Cold Brew Martini 和 Mezcal 鸡尾酒是招牌，羊奶酪开胃小食 10 分满分。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>甚至出售苦艾酒单杯——在 Ann Arbor 极为罕见。仅周四至周日营业，周日下午 3 点开始。</div>
+      <div class="card-meta">
+        <span class="meta-pill">210 S Main St</span>
+        <span class="meta-pill">Thu–Sun from 3–5pm</span>
+        <span class="meta-rating">★ 5.0</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--sage);"></div>
+      <div class="card-tag">Craft Beer · Casual</div>
+      <div class="card-name">The Grotto - Watering Hole</div>
+      <div class="card-desc">S Ashley St 上的 37 龙头精酿啤酒吧，砖石地窖氛围浓厚，调酒师 Don 是传奇人物。可自带食物进来，户外座位加热灯让冬夜也舒适。啤酒种类在 Ann Arbor 属于最广之列。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>Witch's Hat 系列出现时务必入手。不忙时选择桌边服务比吧台取餐更舒适。</div>
+      <div class="card-meta">
+        <span class="meta-pill">303 S Ashley St</span>
+        <span class="meta-pill">Mon–Sun from 3–11pm</span>
+        <span class="meta-rating">★ 4.6</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--gold);"></div>
+      <div class="card-tag">Cocktail Bar · Intimate</div>
+      <div class="card-name">Nightcap</div>
+      <div class="card-desc">S Main St 上低调入口背后的精品鸡尾酒吧，调酒师 Jordan 的个人化推荐是一绝。Bee's Knees 和经典款的出品水准稳定，氛围温馨私密，适合深度聊天或安静的独饮之夜。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>门面不显眼，留意门牌号。每天下午 6 点开始，是晚餐后的完美续集。</div>
+      <div class="card-meta">
+        <span class="meta-pill">220 S Main St</span>
+        <span class="meta-pill">Daily from 6pm</span>
+        <span class="meta-rating">★ 4.6</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-line" style="background: var(--rust);"></div>
+      <div class="card-tag">Underground Speakeasy</div>
+      <div class="card-name">Rabbit Hole</div>
+      <div class="card-desc">S 1st St 上的真正地下 Speakeasy，禁酒令时代风格的洞穴空间，苦艾酒以传统方式端上——仅此一项已值得专程前来。调酒师亲切，鸡尾酒创意十足，入场 $5，周四周五开门。</div>
+      <div class="card-tip"><span class="tip-mark">✦</span>早去可拥有整个空间，气氛最佳。夜深后会变成舞场，若只想喝酒聊天，8–10pm 是黄金时段。</div>
+      <div class="card-meta">
+        <span class="meta-pill">210 S 1st St</span>
+        <span class="meta-pill">Thu–Fri from 8pm</span>
+        <span class="meta-rating">★ 4.3</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">A N N · A R B O R</div>
+  <p>A Hidden Gems Companion · Washtenaw County, Michigan</p>
+  <br>
+  <p style="opacity:0.3;">Go Blue · Tree City · 42°16′N</p>
+</footer>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map = ['welcome','food','coffee','nature','culture','books','drinks'];
+  document.querySelectorAll('.nav-tab')[map.indexOf(id)].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
