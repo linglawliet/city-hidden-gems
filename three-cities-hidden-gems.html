@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hidden Gems · Three Cities</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=Josefin+Sans:wght@200;300;400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+/* ── TOKENS ── */
+:root {
+  --c-mc-bg:    #f4ede0;
+  --c-mc-ink:   #1a1208;
+  --c-mc-rust:  #b5421a;
+  --c-mc-gold:  #c9923a;
+  --c-mc-sage:  #6b7c5e;
+  --c-mc-border:#d4c5a9;
+  --c-mc-card:  #faf6ee;
+
+  --c-aa-bg:    #070f1c;
+  --c-aa-ink:   #f2ead8;
+  --c-aa-gold:  #d4a843;
+  --c-aa-muted: #9a7a35;
+  --c-aa-dim:   #c8bfa8;
+  --c-aa-card:  #101e30;
+  --c-aa-border:rgba(212,168,67,.18);
+
+  --c-cv-bg:    #f0f4ef;
+  --c-cv-ink:   #1a2318;
+  --c-cv-green: #3d6b45;
+  --c-cv-terra: #8b5e3c;
+  --c-cv-stone: #b5a898;
+  --c-cv-border:#c8d5c0;
+  --c-cv-card:  #f8faf7;
+
+  --radius: 0px;
+  --transition: .3s ease;
+}
+
+body { font-family:'EB Garamond',Georgia,serif; overflow-x:hidden; }
+
+/* ════════════════════════════════
+   CITY SELECTOR (hero)
+════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  position: relative;
+}
+
+.city-door {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0 72px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: flex .6s cubic-bezier(.4,0,.2,1);
+}
+.city-door:hover { flex: 1.25; }
+.city-door::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  opacity:.55;
+  transition: opacity .4s;
+}
+.city-door:hover::before { opacity:.35; }
+
+/* door backgrounds */
+.door-mc::before { background: linear-gradient(to bottom, #3a200a 0%, #7a4010 60%, #c9923a 100%); }
+.door-aa::before { background: linear-gradient(to bottom, #000812 0%, #0b1e3a 55%, #d4a843 100%); }
+.door-cv::before { background: linear-gradient(to bottom, #0e1f0c 0%, #2d5c35 55%, #8b5e3c 100%); }
+
+.door-divider {
+  position:absolute;
+  top:0; bottom:0;
+  width:1px;
+  right:0;
+  background: rgba(255,255,255,.15);
+  z-index:5;
+}
+
+.city-door-content {
+  position:relative;
+  z-index:2;
+  text-align:center;
+}
+
+.door-eyebrow {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:200;
+  font-size:9px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  margin-bottom:16px;
+  display:block;
+}
+
+.door-city {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size: clamp(44px,6vw,90px);
+  line-height:.9;
+  color:#fff;
+  letter-spacing:-2px;
+  display:block;
+  transition: transform .3s ease;
+}
+.city-door:hover .door-city { transform: translateY(-6px); }
+
+.door-state {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:200;
+  font-size:10px;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+  display:block;
+  margin-top:10px;
+}
+
+.door-cta {
+  display:inline-block;
+  margin-top:28px;
+  padding:10px 24px;
+  border:1px solid rgba(255,255,255,.35);
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:300;
+  font-size:9px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:#fff;
+  opacity:0;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.city-door:hover .door-cta { opacity:1; transform:translateY(0); }
+
+/* door vertical text */
+.door-vert {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%) rotate(-90deg);
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size: clamp(80px,12vw,160px);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,.08);
+  white-space: nowrap;
+  user-select:none;
+  pointer-events:none;
+  letter-spacing:-4px;
+}
+
+/* hero top bar */
+.hero-topbar {
+  position:absolute;
+  top:0; left:0; right:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:28px 40px;
+}
+
+.hero-logo {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:18px;
+  color:#fff;
+  letter-spacing:4px;
+  opacity:.8;
+}
+
+.hero-tagline {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:200;
+  font-size:9px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+
+@media (max-width:700px) {
+  .hero { grid-template-columns:1fr; grid-template-rows:1fr 1fr 1fr; min-height:100svh; }
+  .city-door:hover { flex:1; }
+  .door-vert { display:none; }
+  .hero-topbar { padding:20px 24px; }
+  .door-city { font-size: clamp(40px,10vw,64px); }
+}
+
+/* ════════════════════════════════
+   GUIDE CONTAINER
+════════════════════════════════ */
+.guide { display:none; }
+.guide.active { display:block; }
+
+/* ── MONTCLAIR theme ── */
+.guide-mc {
+  background: var(--c-mc-bg);
+  color: var(--c-mc-ink);
+}
+/* ── ANN ARBOR theme ── */
+.guide-aa {
+  background: var(--c-aa-bg);
+  color: var(--c-aa-ink);
+}
+/* ── CHARLOTTESVILLE theme ── */
+.guide-cv {
+  background: var(--c-cv-bg);
+  color: var(--c-cv-ink);
+}
+
+/* ════════════════════════════════
+   CITY HEADER (inside each guide)
+════════════════════════════════ */
+.city-header {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:60vh;
+}
+@media(max-width:700px){ .city-header{grid-template-columns:1fr;} }
+
+.city-header-text {
+  padding:64px 52px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+}
+
+.city-back {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:300;
+  font-size:9px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  cursor:pointer;
+  border:none;
+  background:none;
+  padding:0;
+  margin-bottom:40px;
+  opacity:.6;
+  transition:opacity .2s;
+}
+.city-back:hover { opacity:1; }
+.guide-mc .city-back { color:var(--c-mc-rust); }
+.guide-aa .city-back { color:var(--c-aa-gold); }
+.guide-cv .city-back { color:var(--c-cv-green); }
+
+.city-header-name {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size: clamp(48px,7vw,96px);
+  line-height:.9;
+  letter-spacing:-3px;
+}
+.guide-mc .city-header-name { color:var(--c-mc-ink); }
+.guide-mc .city-header-name em { color:var(--c-mc-rust); font-style:italic; }
+.guide-aa .city-header-name { color:var(--c-aa-ink); }
+.guide-aa .city-header-name em { color:var(--c-aa-gold); font-style:italic; }
+.guide-cv .city-header-name { color:var(--c-cv-ink); }
+.guide-cv .city-header-name em { color:var(--c-cv-green); font-style:italic; }
+
+.city-header-sub {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:200;
+  font-size:10px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  margin-top:14px;
+}
+.guide-mc .city-header-sub { color:var(--c-mc-gold); }
+.guide-aa .city-header-sub { color:var(--c-aa-muted); }
+.guide-cv .city-header-sub { color:var(--c-cv-terra); }
+
+.city-header-desc {
+  font-size:15px;
+  line-height:2;
+  margin-top:24px;
+  max-width:480px;
+}
+.guide-mc .city-header-desc { color:#4a3a28; }
+.guide-aa .city-header-desc { color:var(--c-aa-dim); font-style:italic; }
+.guide-cv .city-header-desc { color:#3a4a38; }
+
+.city-header-visual {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.guide-mc .city-header-visual { background:var(--c-mc-ink); }
+.guide-aa .city-header-visual { background:#020810; }
+.guide-cv .city-header-visual { background:#162718; }
+
+.header-big-letter {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:700;
+  font-size: clamp(120px,18vw,220px);
+  color:transparent;
+  user-select:none;
+  line-height:1;
+  letter-spacing:-6px;
+}
+.guide-mc .header-big-letter { -webkit-text-stroke:1px rgba(201,146,58,.3); }
+.guide-aa .header-big-letter { -webkit-text-stroke:1.5px rgba(212,168,67,.25); }
+.guide-cv .header-big-letter { -webkit-text-stroke:1px rgba(139,94,60,.35); }
+
+.header-coords {
+  position:absolute;
+  bottom:32px;
+  right:32px;
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:200;
+  font-size:9px;
+  letter-spacing:3px;
+  text-align:right;
+  line-height:2;
+}
+.guide-mc .header-coords { color:rgba(201,146,58,.5); }
+.guide-aa .header-coords { color:rgba(212,168,67,.45); }
+.guide-cv .header-coords { color:rgba(139,94,60,.5); }
+
+/* ════════════════════════════════
+   CAT NAV (sticky tab bar)
+════════════════════════════════ */
+.cat-nav {
+  display:flex;
+  overflow-x:auto;
+  scrollbar-width:none;
+  position:sticky;
+  top:0;
+  z-index:50;
+  border-bottom-width:2px;
+  border-bottom-style:solid;
+}
+.cat-nav::-webkit-scrollbar{display:none;}
+.guide-mc .cat-nav { background:var(--c-mc-card); border-color:var(--c-mc-ink); }
+.guide-aa .cat-nav { background:#0c1a2e; border-color:var(--c-aa-border); }
+.guide-cv .cat-nav { background:var(--c-cv-card); border-color:var(--c-cv-border); }
+
+.cat-tab {
+  flex-shrink:0;
+  padding:16px 24px;
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:300;
+  font-size:10px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  border:none;
+  background:none;
+  white-space:nowrap;
+  transition:all .2s;
+  border-right-width:1px;
+  border-right-style:solid;
+}
+.guide-mc .cat-tab { color:var(--c-mc-ink); opacity:.45; border-color:var(--c-mc-border); }
+.guide-mc .cat-tab.active { opacity:1; background:var(--c-mc-ink); color:var(--c-mc-bg); }
+.guide-mc .cat-tab:hover:not(.active) { opacity:.8; }
+
+.guide-aa .cat-tab { color:var(--c-aa-dim); opacity:.6; border-color:var(--c-aa-border); }
+.guide-aa .cat-tab.active { opacity:1; color:var(--c-aa-gold); background:rgba(212,168,67,.07); border-bottom:2px solid var(--c-aa-gold); }
+.guide-aa .cat-tab:hover:not(.active) { color:var(--c-aa-ink); opacity:.9; }
+
+.guide-cv .cat-tab { color:var(--c-cv-ink); opacity:.45; border-color:var(--c-cv-border); }
+.guide-cv .cat-tab.active { opacity:1; background:var(--c-cv-green); color:#fff; }
+.guide-cv .cat-tab:hover:not(.active) { opacity:.8; }
+
+/* ════════════════════════════════
+   SECTIONS & CARDS
+════════════════════════════════ */
+.cat-section { display:none; animation:fadeIn .35s ease; }
+.cat-section.active { display:block; }
+
+/* section header */
+.sec-header {
+  padding:52px 48px 36px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:28px;
+  align-items:end;
+  border-bottom-width:1px;
+  border-bottom-style:solid;
+}
+.guide-mc .sec-header { border-color:var(--c-mc-border); background:linear-gradient(to bottom,#f0e8d8,var(--c-mc-bg)); }
+.guide-aa .sec-header { border-color:var(--c-aa-border); background:linear-gradient(to bottom,#0c1a2e,var(--c-aa-bg)); }
+.guide-cv .sec-header { border-color:var(--c-cv-border); background:linear-gradient(to bottom,#e8efe6,var(--c-cv-bg)); }
+
+@media(max-width:600px){ .sec-header{padding:32px 20px 24px; grid-template-columns:1fr; gap:8px;} }
+
+.sec-num {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:88px;
+  line-height:.85;
+  user-select:none;
+}
+.guide-mc .sec-num { color:var(--c-mc-border); }
+.guide-aa .sec-num { color:transparent; -webkit-text-stroke:1px rgba(212,168,67,.18); }
+.guide-cv .sec-num { color:var(--c-cv-border); }
+
+.sec-title {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:600;
+  font-size: clamp(30px,4.5vw,52px);
+  line-height:1.05;
+}
+.sec-sub {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:200;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-top:8px;
+}
+.guide-mc .sec-sub { color:var(--c-mc-rust); }
+.guide-aa .sec-sub { color:var(--c-aa-gold); }
+.guide-cv .sec-sub { color:var(--c-cv-green); }
+
+/* intro banner */
+.intro-banner {
+  grid-column:1/-1;
+  padding:36px 44px;
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+  border-bottom-width:1px;
+  border-bottom-style:solid;
+}
+.guide-mc .intro-banner { background:#ede4d0; border-color:var(--c-mc-border); }
+.guide-aa .intro-banner { background:#0d1e35; border-color:var(--c-aa-border); }
+.guide-cv .intro-banner { background:#e4ede1; border-color:var(--c-cv-border); }
+
+.intro-bar { width:3px; align-self:stretch; min-height:50px; flex-shrink:0; }
+.guide-mc .intro-bar { background:linear-gradient(to bottom,var(--c-mc-rust),var(--c-mc-gold)); }
+.guide-aa .intro-bar { background:linear-gradient(to bottom,var(--c-aa-gold),var(--c-aa-muted)); }
+.guide-cv .intro-bar { background:linear-gradient(to bottom,var(--c-cv-green),var(--c-cv-terra)); }
+
+.intro-banner p { font-size:16px; line-height:1.9; font-style:italic; }
+.guide-mc .intro-banner p { color:#5a4530; }
+.guide-aa .intro-banner p { color:var(--c-aa-dim); }
+.guide-cv .intro-banner p { color:#3a4e38; }
+
+.intro-banner strong { font-style:normal; }
+.guide-mc .intro-banner strong { color:var(--c-mc-ink); }
+.guide-aa .intro-banner strong { color:var(--c-aa-ink); }
+.guide-cv .intro-banner strong { color:var(--c-cv-ink); }
+
+/* card grid */
+.cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); }
+
+.card {
+  padding:34px 34px 28px;
+  border-right-width:1px; border-right-style:solid;
+  border-bottom-width:1px; border-bottom-style:solid;
+  transition:background .2s;
+}
+.guide-mc .card { border-color:var(--c-mc-border); background:var(--c-mc-card); }
+.guide-mc .card:hover { background:#f5eddf; }
+.guide-aa .card { border-color:var(--c-aa-border); background:var(--c-aa-card); }
+.guide-aa .card:hover { background:#162640; }
+.guide-cv .card { border-color:var(--c-cv-border); background:var(--c-cv-card); }
+.guide-cv .card:hover { background:#eff5ed; }
+
+.card-line { width:26px; height:2px; margin-bottom:16px; }
+
+.card-tag {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:300;
+  font-size:9px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.guide-mc .card-tag { color:var(--c-mc-rust); }
+.guide-aa .card-tag { color:var(--c-aa-gold); }
+.guide-cv .card-tag { color:var(--c-cv-green); }
+
+.card-name {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:600;
+  font-size:22px;
+  line-height:1.2;
+  margin-bottom:10px;
+}
+.guide-mc .card-name { color:var(--c-mc-ink); }
+.guide-aa .card-name { color:var(--c-aa-ink); }
+.guide-cv .card-name { color:var(--c-cv-ink); }
+
+.card-desc {
+  font-size:14px;
+  line-height:1.85;
+  margin-bottom:14px;
+}
+.guide-mc .card-desc { color:#4a3a28; }
+.guide-aa .card-desc { color:var(--c-aa-dim); }
+.guide-cv .card-desc { color:#3a4838; }
+
+.card-tip {
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  border-left-width:2px;
+  border-left-style:solid;
+  padding:9px 12px;
+  font-size:13px;
+  line-height:1.7;
+  font-style:italic;
+  margin-bottom:16px;
+}
+.guide-mc .card-tip { border-color:var(--c-mc-gold); background:rgba(201,146,58,.07); color:#5a4530; }
+.guide-aa .card-tip { border-color:var(--c-aa-gold); background:rgba(212,168,67,.06); color:var(--c-aa-dim); }
+.guide-cv .card-tip { border-color:var(--c-cv-terra); background:rgba(139,94,60,.06); color:#4a4038; }
+
+.tip-mark { font-style:normal; flex-shrink:0; }
+.guide-mc .tip-mark { color:var(--c-mc-gold); }
+.guide-aa .tip-mark { color:var(--c-aa-gold); }
+.guide-cv .tip-mark { color:var(--c-cv-terra); }
+
+.card-meta { display:flex; flex-wrap:wrap; gap:7px; }
+
+.meta-pill {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:300;
+  font-size:9px;
+  letter-spacing:1px;
+  padding:4px 10px;
+  border-width:1px;
+  border-style:solid;
+  text-transform:uppercase;
+}
+.guide-mc .meta-pill { border-color:var(--c-mc-border); color:#7a6050; }
+.guide-aa .meta-pill { border-color:var(--c-aa-border); color:var(--c-aa-dim); }
+.guide-cv .meta-pill { border-color:var(--c-cv-border); color:#5a6050; }
+
+.meta-rating {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:400;
+  font-size:9px;
+  letter-spacing:1px;
+  padding:4px 10px;
+}
+.guide-mc .meta-rating { background:var(--c-mc-ink); color:var(--c-mc-gold); }
+.guide-aa .meta-rating { background:rgba(212,168,67,.15); color:var(--c-aa-gold); border:1px solid rgba(212,168,67,.25); }
+.guide-cv .meta-rating { background:var(--c-cv-green); color:#fff; }
+
+/* footer */
+.city-footer {
+  text-align:center;
+  padding:48px 24px;
+  border-top-width:1px;
+  border-top-style:solid;
+}
+.guide-mc .city-footer { background:var(--c-mc-ink); border-color:var(--c-mc-border); }
+.guide-aa .city-footer { background:#020810; border-color:var(--c-aa-border); }
+.guide-cv .city-footer { background:#162718; border-color:var(--c-cv-border); }
+
+.footer-city-name {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:28px;
+  letter-spacing:6px;
+  display:block;
+  margin-bottom:10px;
+}
+.guide-mc .footer-city-name { color:var(--c-mc-gold); }
+.guide-aa .footer-city-name { color:var(--c-aa-gold); }
+.guide-cv .footer-city-name { color:#8eba8e; }
+
+.footer-sub {
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:200;
+  font-size:9px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  opacity:.4;
+}
+.guide-mc .footer-sub { color:var(--c-mc-bg); }
+.guide-aa .footer-sub { color:var(--c-aa-muted); }
+.guide-cv .footer-sub { color:#8eba8e; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+@keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.hero { animation: fadeIn .5s ease both; }
+.guide.active { animation: slideUp .4s ease both; }
+
+@media(max-width:600px){
+  .city-header-text { padding:40px 24px; }
+  .intro-banner { padding:24px 20px; }
+  .card { padding:22px 18px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     HERO — CITY SELECTOR
+══════════════════════════════════ -->
+<div class="hero" id="hero">
+  <div class="hero-topbar">
+    <span class="hero-logo">H I D D E N · G E M S</span>
+    <span class="hero-tagline">Choose Your City</span>
+  </div>
+
+  <!-- MONTCLAIR -->
+  <div class="city-door door-mc" onclick="openCity('mc')">
+    <div class="door-vert">Montclair</div>
+    <div class="city-door-content">
+      <span class="door-eyebrow">Essex County · New Jersey</span>
+      <span class="door-city">Mont<br>clair</span>
+      <span class="door-state">NJ · 40°49′N</span>
+      <span class="door-cta">探索这座城市 →</span>
+    </div>
+    <div class="door-divider"></div>
+  </div>
+
+  <!-- ANN ARBOR -->
+  <div class="city-door door-aa" onclick="openCity('aa')">
+    <div class="door-vert">Ann Arbor</div>
+    <div class="city-door-content">
+      <span class="door-eyebrow">Washtenaw County · Michigan</span>
+      <span class="door-city">Ann<br>Arbor</span>
+      <span class="door-state">MI · 42°16′N</span>
+      <span class="door-cta">探索这座城市 →</span>
+    </div>
+    <div class="door-divider"></div>
+  </div>
+
+  <!-- CHARLOTTESVILLE -->
+  <div class="city-door door-cv" onclick="openCity('cv')">
+    <div class="door-vert">Charlottesville</div>
+    <div class="city-door-content">
+      <span class="door-eyebrow">Albemarle County · Virginia</span>
+      <span class="door-city">Char<br>lottes<br>ville</span>
+      <span class="door-state">VA · 38°02′N</span>
+      <span class="door-cta">探索这座城市 →</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     GUIDE: MONTCLAIR
+══════════════════════════════════ -->
+<div class="guide guide-mc" id="guide-mc">
+  <!-- City Header -->
+  <div class="city-header">
+    <div class="city-header-text">
+      <button class="city-back" onclick="goHome()">← 返回选择城市</button>
+      <h1 class="city-header-name">Mont<br><em>clair</em></h1>
+      <div class="city-header-sub">Essex County · New Jersey · 14 Miles from NYC</div>
+      <p class="city-header-desc">这座小城距曼哈顿仅 14 英里，却有着截然不同的灵魂——艺术家聚居、独立书店飘香、农贸市场每周现身，街角总有一家值得流连的小馆子。</p>
+    </div>
+    <div class="city-header-visual">
+      <div class="header-big-letter">MC</div>
+      <div class="header-coords">Montclair<br>40°49′N · 74°12′W</div>
+    </div>
+  </div>
+
+  <!-- Cat Nav -->
+  <nav class="cat-nav" id="nav-mc">
+    <button class="cat-tab active" onclick="showCat('mc','food')">🍽 餐饮</button>
+    <button class="cat-tab" onclick="showCat('mc','coffee')">☕ 咖啡</button>
+    <button class="cat-tab" onclick="showCat('mc','nature')">🌿 自然</button>
+    <button class="cat-tab" onclick="showCat('mc','culture')">🎨 文化艺术</button>
+    <button class="cat-tab" onclick="showCat('mc','books')">📚 书店</button>
+    <button class="cat-tab" onclick="showCat('mc','drinks')">🥂 酒吧</button>
+    <button class="cat-tab" onclick="showCat('mc','shops')">🛍 独立小店</button>
+  </nav>
+
+  <!-- FOOD -->
+  <div class="cat-section active" id="mc-food">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div><h2 class="sec-title">值得绕路的<br>餐桌风景</h2><div class="sec-sub">Restaurants · BYOB Culture</div></div>
+    </div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Montclair 餐饮的隐藏规律：许多好餐厅采用 <strong>BYOB（自带酒水）</strong>政策，让正餐变得更随意。出发前在 Amanti Vino 酒行选一瓶酒，是本地人的标准操作。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">New American · Brunch</div><div class="card-name">Meet Me at Madison's</div><div class="card-desc">Watchung Ave 上的明星早午餐馆，带着墨西哥风味的创意美式菜——招牌 Birria Taco 令人惊艳，Arepa 开胃小吃软糯有嚼劲。周末几乎座无虚席，氛围温馨。</div><div class="card-tip"><span class="tip-mark">✦</span>提前预约是铁律。窗边位置视野最佳，服务团队以亲切著称。</div><div class="card-meta"><span class="meta-pill">121 Watchung Ave</span><span class="meta-pill">Tue–Sun</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-sage)"></div><div class="card-tag">Italian · Counter Service</div><div class="card-name">Boschetto</div><div class="card-desc">Grove St 上的"高级快餐意大利馆"——柜台点单，端上来的却是扎实的 Amatriciana、松脆炸茄子和手工 Gelato。BYOB，免费停车，物超所值。</div><div class="card-tip"><span class="tip-mark">✦</span>Pizza Bianca 和 Arugula Salad 是无声的隐藏冠军，必点。</div><div class="card-meta"><span class="meta-pill">111 Grove St</span><span class="meta-pill">BYOB</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-gold)"></div><div class="card-tag">Italian · Fine Dining</div><div class="card-name">Sapori Montclair</div><div class="card-desc">Park St 上近乎完美口碑的意大利精品餐厅。Lobster Fettuccine、Carpaccio 和 Cacio e Pepe 是常客点名之作，服务真诚细腻，Pistachio Gelato 是完美句号。</div><div class="card-tip"><span class="tip-mark">✦</span>BYOB。周六日提供午餐，是特别场合的绝佳选择。</div><div class="card-meta"><span class="meta-pill">9 Park St</span><span class="meta-pill">BYOB</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:#8a6080"></div><div class="card-tag">American · Intimate</div><div class="card-name">Turtle + the Wolf</div><div class="card-desc">Upper Montclair 上灯光昏暗、气氛私密的小餐厅。Persian Cucumber Salad 是令人意外的惊喜，Lo's Fried Chicken 是镇店之宝，BYOB，主厨亲力亲为。</div><div class="card-tip"><span class="tip-mark">✦</span>周三至周日营业。适合特别的约会夜或安静的家庭聚餐。</div><div class="card-meta"><span class="meta-pill">622 Valley Rd</span><span class="meta-pill">BYOB</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">New American · Women Chefs</div><div class="card-name">The Saint Clair</div><div class="card-desc">Church St 上由女性主厨掌舵的现代美式餐厅。Cast Iron Cornbread 是必点开胃菜，Short Rib 和 Skirt Steak 烹调精准。旁边就是 Amanti Vino，BYOB 完美搭档。</div><div class="card-tip"><span class="tip-mark">✦</span>$32 prix fixe 午餐是性价比之选。装饰有趣，有 Romeo & Juliet 彩蛋。</div><div class="card-meta"><span class="meta-pill">32 Church St</span><span class="meta-pill">BYOB</span><span class="meta-rating">★ 4.5</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-sage)"></div><div class="card-tag">Fine Dining · Tasting Menu</div><div class="card-name">Sam's Table</div><div class="card-desc">Bloomfield Ave 上的新秀精品餐厅，主厨 Sam 的品鉴菜单是 Montclair 最具创意的餐饮体验之一。Celery Root Broth、Fluke 和 Leeks with Trout Roe 均令人难忘，主厨会亲自来桌问候。</div><div class="card-tip"><span class="tip-mark">✦</span>周四至周日营业，仅晚餐。周日提供单点菜单，性价比更高。BYOB。</div><div class="card-meta"><span class="meta-pill">377 Bloomfield Ave</span><span class="meta-pill">Thu–Sun · BYOB</span><span class="meta-rating">★ 4.7</span></div></div>
+    </div>
+  </div>
+
+  <!-- COFFEE -->
+  <div class="cat-section" id="mc-coffee">
+    <div class="sec-header"><div class="sec-num">02</div><div><h2 class="sec-title">每日咖啡<br>仪式指南</h2><div class="sec-sub">Cafés · Coffee Roasters · Tea Houses</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Montclair 的咖啡文化多元——从也门传统茶室到精品自烘工坊，从深夜开放的沙龙式甜品咖啡馆到街角据点，每家都有自己鲜明的个性。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-gold)"></div><div class="card-tag">Café · Desserts · Late Night</div><div class="card-name">Honey Brewed Cafe</div><div class="card-desc">Valley Rd 上的网红咖啡馆，咖啡、可丽饼、华夫饼一应俱全。内部设计精心，气氛温馨如家。晚上 10 点还开着——深夜甜点救场首选。</div><div class="card-tip"><span class="tip-mark">✦</span>Shaken Espresso 和手工甜品是主打。停车场较小，早到为妙。</div><div class="card-meta"><span class="meta-pill">150 Valley Rd</span><span class="meta-pill">Daily 8am–10pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">Yemeni Coffee · Tea House</div><div class="card-name">Qahwah House</div><div class="card-desc">Bloomfield Ave 上的也门咖啡馆，Adeni Chai 用小壶端上配蜂巢甜点 Sabaya，周末营业到凌晨 1 点。菜单繁多，员工乐于推荐。</div><div class="card-tip"><span class="tip-mark">✦</span>Yemeni 咖啡风味浓郁独特，入座慢慢感受。Maple Walnut 季节限定值得一试。</div><div class="card-meta"><span class="meta-pill">493 Bloomfield Ave</span><span class="meta-pill">Fri–Sat until 1am</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-sage)"></div><div class="card-tag">Puerto Rican · Specialty</div><div class="card-name">787 Coffee</div><div class="card-desc">来自波多黎各的精品咖啡品牌。Dulce de Leche Latte 是招牌，备有共享工作台和插座，兼具咖啡馆和办公空间的功能。咖啡师亲切，不时来问候客人。</div><div class="card-tip"><span class="tip-mark">✦</span>如果你在波多黎各喝过 787，这里不会让你失望。</div><div class="card-meta"><span class="meta-pill">706 Bloomfield Ave</span><span class="meta-pill">Daily 7am–7pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-ink)"></div><div class="card-tag">Artisan Roastery · Early Bird</div><div class="card-name">Roast'd Coffee</div><div class="card-desc">Claremont Ave 上的自烘咖啡工坊，门外看毫不起眼，推开门却是宽敞明亮的开放空间。Pour Over 出品稳定，豆子可外带并现场研磨，早上 6 点就开门。</div><div class="card-tip"><span class="tip-mark">✦</span>"Legender" 豆子的 Americano 被老客奉为难忘体验。晨跑后的最佳去处。</div><div class="card-meta"><span class="meta-pill">49 Claremont Ave</span><span class="meta-pill">Daily from 6am</span><span class="meta-rating">★ 4.9</span></div></div>
+    </div>
+  </div>
+
+  <!-- NATURE -->
+  <div class="cat-section" id="mc-nature">
+    <div class="sec-header"><div class="sec-num">03</div><div><h2 class="sec-title">城市之外<br>的绿色秘境</h2><div class="sec-sub">Parks · Trails · Wildlife Preserves</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Montclair 的自然资源常被外来者忽视——但本地人知道，几分钟车程之内就能找到瀑布、鹿群，和远眺曼哈顿天际线的山顶。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-sage)"></div><div class="card-tag">Wildlife Preserve · Hidden</div><div class="card-name">Alonzo F. Bonsal Wildlife Preserve</div><div class="card-desc">隐藏在住宅区夹缝中的小型野生动物保护区，入口夹在两栋房子之间，不仔细找根本找不到。进去后满眼鹿、野鸭、野花，20–30 分钟完成一圈。</div><div class="card-tip"><span class="tip-mark">✦</span>入口在 Riverview Dr W，路边停车。Montclair 最不为人知的秘境之一。</div><div class="card-meta"><span class="meta-pill">Riverview Dr W</span><span class="meta-pill">Daily 6am–7pm</span><span class="meta-rating">★ 4.5</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-gold)"></div><div class="card-tag">Park · Pond · Dog-Friendly</div><div class="card-name">Yantacaw Brook Park</div><div class="card-desc">小巧精致的社区公园，有池塘、小桥、瀑布和随时现身的鸭子和乌龟。带书来找块草地坐下，或牵着狗绕湖走一圈——这是 Montclair 慢下来的方式。</div><div class="card-tip"><span class="tip-mark">✦</span>春天野花盛开时最美。没有洗手间，出发前做好准备。</div><div class="card-meta"><span class="meta-pill">30 Club Rd</span><span class="meta-pill">Daily 6am–9pm</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">Hiking · Manhattan View</div><div class="card-name">Mills Reservation</div><div class="card-desc">Montclair 与 Cedar Grove 边界上的徒步圣地，1.5 英里主路，多条支线可自由组合。山顶能眺望曼哈顿天际线，冬至日落恰好压在帝国大厦上方。</div><div class="card-tip"><span class="tip-mark">✦</span>停车场不大，清早去最佳。骑行和遛狗者都常来，氛围友好。</div><div class="card-meta"><span class="meta-pill">Normal Ave & Reservoir Dr</span><span class="meta-pill">Daily 7am–7pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-ink)"></div><div class="card-tag">Large Reserve · Waterfall</div><div class="card-name">South Mountain Reservation</div><div class="card-desc">Essex County 最大的自然保护区，数十条标记步道，瀑布、溪流、茂密森林一应俱全。从 Millburn 坐 NJ Transit 可抵达，不开车也能享受半日徒步。</div><div class="card-tip"><span class="tip-mark">✦</span>黄色步道有挑战性，蓝色步道轻松惬意。秋叶季节最美。</div><div class="card-meta"><span class="meta-pill">West Orange (15min)</span><span class="meta-pill">Daily 8am–4:30pm</span><span class="meta-rating">★ 4.7</span></div></div>
+    </div>
+  </div>
+
+  <!-- CULTURE -->
+  <div class="cat-section" id="mc-culture">
+    <div class="sec-header"><div class="sec-num">04</div><div><h2 class="sec-title">文化艺术<br>的呼吸空间</h2><div class="sec-sub">Museums · Galleries · Live Music</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Montclair 是 NJ 文化密度最高的小城之一，常住着艺术家、作家和音乐人。文化生活不靠大机构，靠的是<strong>密集的独立空间和真实的社区参与感</strong>。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">Art Museum · American & Native</div><div class="card-name">Montclair Art Museum</div><div class="card-desc">South Mountain Ave 上专注美国艺术与原住民艺术的博物馆，精小而深刻。Native American 展厅尤为动人，特别展览频繁更迭。周五至周日开放。</div><div class="card-tip"><span class="tip-mark">✦</span>馆内工作人员知识渊博，值得多聊几句。婚礼和活动场地也在这里。</div><div class="card-meta"><span class="meta-pill">3 S Mountain Ave</span><span class="meta-pill">Fri–Sun</span><span class="meta-rating">★ 4.3</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-gold)"></div><div class="card-tag">Live Music Venue</div><div class="card-name">The Wellmont Theater</div><div class="card-desc">Bloomfield Ave 上的历史剧院，是 NJ 最受喜爱的中型演出场地之一。从摇滚到爵士、喜剧到古典，节目排得密，几乎所有场次都可步行或公交到达。</div><div class="card-tip"><span class="tip-mark">✦</span>演出前在隔壁 Pharmacie Bar 先喝一杯，是本地人的习惯动作。</div><div class="card-meta"><span class="meta-pill">5 Seymour St</span><span class="meta-pill">wellmonttheater.com</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-sage)"></div><div class="card-tag">Wine Shop · Community Hub</div><div class="card-name">Amanti Vino</div><div class="card-desc">Church St 上的精品酒行，品酒会、葡萄酒课程、作者签名会在这里轮番上演。与旁边 The Saint Clair 是完美 BYOB 搭档。店员推荐比任何算法都准确。</div><div class="card-tip"><span class="tip-mark">✦</span>告诉他们你的口味和预算，会得到令人惊喜的精准推荐。</div><div class="card-meta"><span class="meta-pill">Church St, Montclair</span><span class="meta-pill">Wine Events</span></div></div>
+      <div class="card"><div class="card-line" style="background:#8a6080"></div><div class="card-tag">Farmers Market · Saturday</div><div class="card-name">Montclair Farmers Market</div><div class="card-desc">每周六上午汇聚本地农场、手工面包、自制果酱和鲜花。来得越早越好，这是认识邻居、融入社区最快的方式。季节性运营，春季至秋末。</div><div class="card-tip"><span class="tip-mark">✦</span>带一个布袋来，准备扫荡。早来的人挑选余地最大。</div><div class="card-meta"><span class="meta-pill">Saturday Mornings</span><span class="meta-pill">Seasonal</span></div></div>
+    </div>
+  </div>
+
+  <!-- BOOKS -->
+  <div class="cat-section" id="mc-books">
+    <div class="sec-header"><div class="sec-num">05</div><div><h2 class="sec-title">书的世界<br>就在街角</h2><div class="sec-sub">Independent Bookstores</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>在独立书店接连倒闭的时代，Montclair 拥有<strong>三家</strong>各具性格的独立书店，每家都像一个独立的宇宙。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-ink)"></div><div class="card-tag">Used & New · Records</div><div class="card-name">Montclair Book Center</div><div class="card-desc">Glenridge Ave 上的三层迷宫书店，新书旧书、黑胶唱片、CD、磁带，货架直达天花板。"Blind Date with a Book"（盲选书）是特色项目，来一次至少留出两个小时。</div><div class="card-tip"><span class="tip-mark">✦</span>烹饪书专区出奇地好。附近停车较难，推荐步行前往。</div><div class="card-meta"><span class="meta-pill">221 Glenridge Ave</span><span class="meta-pill">Tue–Sun</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">Indie · Author Events</div><div class="card-name">Watchung Booksellers</div><div class="card-desc">Fairfield St 上的社区书店灵魂，进门像是一个温暖的拥抱。精心陈列、作者活动频繁，还卖明信片。几扇门外有专属儿童书店分店。</div><div class="card-tip"><span class="tip-mark">✦</span>关注他们的活动日历——作家讲座、签名活动是融入本地文化圈的好机会。</div><div class="card-meta"><span class="meta-pill">54 Fairfield St</span><span class="meta-pill">Daily 10am–7pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-gold)"></div><div class="card-tag">Indie · Gifts · Perfect Score</div><div class="card-name">The Collective Bookstore</div><div class="card-desc">严格来说在 Verona，但离 Montclair 仅几分钟。专注独立精选，儿童专区"纳尼亚"令人着迷，本地制作者的艺术品和礼品也有销售。满分 5.0 评分在 NJ 几乎是奇迹。</div><div class="card-tip"><span class="tip-mark">✦</span>周四延长到晚上 8 点，是下班顺路的好选择。</div><div class="card-meta"><span class="meta-pill">460 Bloomfield Ave, Verona</span><span class="meta-pill">Daily 10am–5/8pm</span><span class="meta-rating">★ 5.0</span></div></div>
+    </div>
+  </div>
+
+  <!-- DRINKS -->
+  <div class="cat-section" id="mc-drinks">
+    <div class="sec-header"><div class="sec-num">06</div><div><h2 class="sec-title">夜幕降临<br>该去哪里</h2><div class="sec-sub">Bars · Cocktail Lounges · Pubs</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Montclair 的夜晚可以很 laid-back 也可以很精致，取决于你推开哪扇门。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-gold)"></div><div class="card-tag">Italian Cocktail Bar</div><div class="card-name">Bar Franco</div><div class="card-desc">Church St 上的意大利风格鸡尾酒吧，"仿佛踏入了 1960 年代的意大利"。Passion Fruit Spritz 和 Salted Butter Gin Martini 是传奇，户外座位尤其适合夏夜。</div><div class="card-tip"><span class="tip-mark">✦</span>告诉调酒师口味偏好，他们会即兴创作。Cafe Leccese 是隐藏冷饮精品。</div><div class="card-meta"><span class="meta-pill">5 Church St</span><span class="meta-pill">Fri–Sat until 2am</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">Cocktail Bar · Pre-Show</div><div class="card-name">Pharmacie Bar + Kitchen</div><div class="card-desc">Bloomfield Ave 上的复古药房主题酒吧，就在 Wellmont Theater 旁边。看演出前来一杯的最佳选择，精酿啤酒选择丰富，Chips n' Dip with Trout Roe 出人意料地美味。</div><div class="card-tip"><span class="tip-mark">✦</span>周三至周六营业，周五周六到凌晨 1:30。演出夜早来占位。</div><div class="card-meta"><span class="meta-pill">398 Bloomfield Ave</span><span class="meta-pill">Wed–Sat</span><span class="meta-rating">★ 4.2</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-sage)"></div><div class="card-tag">Irish Pub · Food</div><div class="card-name">Egan & Sons</div><div class="card-desc">Walnut St 上装潢地道的爱尔兰酒吧餐厅，Maple Buffalo Wings 和 Truffle Mac & Cheese 是经典，Sticky Toffee Pudding 是完美结尾。周末非常热闹，适合组团前来。</div><div class="card-tip"><span class="tip-mark">✦</span>周末人多，建议预约。周五周六营业到凌晨 1:30。</div><div class="card-meta"><span class="meta-pill">118 Walnut St</span><span class="meta-pill">Daily from noon</span><span class="meta-rating">★ 4.4</span></div></div>
+    </div>
+  </div>
+
+  <!-- SHOPS -->
+  <div class="cat-section" id="mc-shops">
+    <div class="sec-header"><div class="sec-num">07</div><div><h2 class="sec-title">独立小店<br>的惊喜发现</h2><div class="sec-sub">Boutiques · Workshops · Gifts</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Montclair 的 Bloomfield Ave 和 Church St 沿线藏着一批有个性的独立小店——有些卖衣服，有些卖手工皂，有些卖整个下午的快乐。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-rust)"></div><div class="card-tag">Workshop · Gifts · Events</div><div class="card-name">The Eclectic Chic Boutique</div><div class="card-desc">Bloomfield Ave 上的创意礼品工作坊，以手工皂制作课程著称，还有巧克力制作和各类手作体验。课程由热情的导师带领，适合生日派对、团队活动和闺蜜聚会。</div><div class="card-tip"><span class="tip-mark">✦</span>手工皂课程 2 小时，包含所有材料，带走你亲手做的成品。提前预约必须。</div><div class="card-meta"><span class="meta-pill">547 Bloomfield Ave</span><span class="meta-pill">Wed–Sun 1–9pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-gold)"></div><div class="card-tag">Women's Boutique · Jewelry</div><div class="card-name">Nouvelle Boutique</div><div class="card-desc">Upper Montclair Valley Rd 上的精品女装店，选品独特，包含服装、珠宝和天然护肤品（香薰喷雾、面部精油）。店主 Arlene 对每位客人都很用心，会帮你找到最适合的风格。</div><div class="card-tip"><span class="tip-mark">✦</span>这里有很多"只此一件"的款式。选婚礼或重要活动的礼服时特别值得来。</div><div class="card-meta"><span class="meta-pill">629B Valley Rd</span><span class="meta-pill">Tue–Sat 11am–5pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-mc-sage)"></div><div class="card-tag">Wine Shop · Events</div><div class="card-name">Amanti Vino</div><div class="card-desc">Church St 上的精品酒行，不只是买酒的地方——品酒会、葡萄酒课程、作者签名会在这里轮番上演。Montclair 社区生活的非正式中心，与各 BYOB 餐厅完美搭档。</div><div class="card-tip"><span class="tip-mark">✦</span>店员极其专业，告诉他们口味和预算，推荐比算法更准确。</div><div class="card-meta"><span class="meta-pill">Church St, Montclair</span><span class="meta-pill">Wine Events Weekly</span></div></div>
+    </div>
+  </div>
+
+  <footer class="city-footer"><span class="footer-city-name">M O N T C L A I R</span><p class="footer-sub">Essex County · New Jersey · A Hidden Gems Companion</p></footer>
+</div>
+
+<!-- ══════════════════════════════════
+     GUIDE: ANN ARBOR
+══════════════════════════════════ -->
+<div class="guide guide-aa" id="guide-aa">
+  <div class="city-header">
+    <div class="city-header-text">
+      <button class="city-back" onclick="goHome()">← 返回选择城市</button>
+      <h1 class="city-header-name">Ann<br><em>Arbor</em></h1>
+      <div class="city-header-sub">Washtenaw County · Michigan · Tree City</div>
+      <p class="city-header-desc">没有太多花哨的行销，却有着惊人的文化密度：世界顶尖大学、五家独立书店、数十个自然保护区，以及一个在"不起眼"外表下悸动着的美食宇宙。</p>
+    </div>
+    <div class="city-header-visual">
+      <div class="header-big-letter">A²</div>
+      <div class="header-coords">Ann Arbor · Michigan<br>42°16′N · 83°44′W</div>
+    </div>
+  </div>
+  <nav class="cat-nav" id="nav-aa">
+    <button class="cat-tab active" onclick="showCat('aa','food')">🍽 餐饮</button>
+    <button class="cat-tab" onclick="showCat('aa','coffee')">☕ 咖啡</button>
+    <button class="cat-tab" onclick="showCat('aa','nature')">🌿 自然</button>
+    <button class="cat-tab" onclick="showCat('aa','culture')">🎨 文化艺术</button>
+    <button class="cat-tab" onclick="showCat('aa','books')">📚 书店</button>
+    <button class="cat-tab" onclick="showCat('aa','drinks')">🥂 酒吧</button>
+  </nav>
+
+  <div class="cat-section active" id="aa-food">
+    <div class="sec-header"><div class="sec-num">01</div><div><h2 class="sec-title">值得绕路的<br>餐桌风景</h2><div class="sec-sub">Restaurants · Hidden Kitchens · Seasonal</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Ann Arbor 的餐饮生态惊人地多元——大学城的活力带来了全球风味，而本地主厨们对食材来源的执着，让独立餐厅往往比大城市的同类<strong>更有诚意</strong>。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Fine Dining · Chef's Counter</div><div class="card-name">Echelon Kitchen and Bar</div><div class="card-desc">Art Deco 气质精品餐厅，7道菜品鉴菜单是 Ann Arbor 最高水准的餐饮体验。菜单随季节更迭，Chef's Counter 可近距离观摩厨房，Shellfish Bisque 和 Root Vegetable Dessert 是传奇。</div><div class="card-tip"><span class="tip-mark">✦</span>特殊场合首选。可无预约早到尝试，服务极为专业。</div><div class="card-meta"><span class="meta-pill">200 S Main St</span><span class="meta-pill">Wed–Sun from 4pm</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Mediterranean · Fusion · Colorful</div><div class="card-name">Spiedo</div><div class="card-desc">色彩缤纷、菜单令人惊喜的地中海融合小馆。Zhoug Chicken Rice Bowl、Party Potatoes 和 Chocolate Tahini Shake 是招牌三件套，Spiedo 酱令人上瘾。</div><div class="card-tip"><span class="tip-mark">✦</span>午市 Happy Hour 外带性价比极高。多要一份 Spiedo 酱绝不后悔。</div><div class="card-meta"><span class="meta-pill">307 S 5th Ave</span><span class="meta-pill">Daily 11am–9pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-muted)"></div><div class="card-tag">Cuban · Street Food · Milkshakes</div><div class="card-name">Frita Batidos</div><div class="card-desc">古巴风格街头美食馆，Frita（古巴汉堡配细薯条）是一种会让人反复回忆的味道。Batido 奶昔——椰子、巧克力、香草——是完美配角。周五周六营业到午夜。</div><div class="card-tip"><span class="tip-mark">✦</span>要求薯条放旁边（on the side）能保持最佳酥脆度。</div><div class="card-meta"><span class="meta-pill">117 W Washington St</span><span class="meta-pill">Daily 11am–11pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Wings · Biscuits · Carry-Out</div><div class="card-name">Side Biscuit</div><div class="card-desc">被食客称为"密歇根最佳鸡翅"——甚至有人专程从纽约布法罗驱车前来。每种风味都精准调味，Biscuit of the Week 是惊喜彩蛋。仅外卖。</div><div class="card-tip"><span class="tip-mark">✦</span>下单前可让员工试酱料。晚 4 点开始，建议早点去避开高峰。</div><div class="card-meta"><span class="meta-pill">1232 Packard St</span><span class="meta-pill">Wed–Sun from 4pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Brunch · Farm-to-Table</div><div class="card-name">The Hen Ann Arbor</div><div class="card-desc">深受喜爱的早午餐名店，Waffle Flight 是独特的尝鲜体验，Avocado Toast 和 Breakfast Tacos 皆是水准之作。点餐后落座，运转效率极高，周末人气爆棚。</div><div class="card-tip"><span class="tip-mark">✦</span>周末早到避开排队。甜品区常被忽视，别错过。</div><div class="card-meta"><span class="meta-pill">403 E Washington St</span><span class="meta-pill">Thu–Sun</span><span class="meta-rating">★ 4.5</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-muted)"></div><div class="card-tag">Seasonal · Bakery · Farm Kitchen</div><div class="card-name">The Dixboro Project</div><div class="card-desc">全季节性农场餐厅，菜单随产季完全更新——每次来都是新体验。Butterfly Hot Tea 变色效果令人惊叹，附带烘焙坊，香蕉巧克力马芬必买。</div><div class="card-tip"><span class="tip-mark">✦</span>夏季户外席位很美。注意账单有 3% 可持续附加费。</div><div class="card-meta"><span class="meta-pill">5400 Plymouth Rd</span><span class="meta-pill">Daily 11am–10pm</span><span class="meta-rating">★ 4.4</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="aa-coffee">
+    <div class="sec-header"><div class="sec-num">02</div><div><h2 class="sec-title">每日咖啡<br>仪式</h2><div class="sec-sub">Specialty Coffee · Tea Houses · All-Day Cafés</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Ann Arbor 的咖啡文化由大学城的好奇心驱动——从也门传统茶室到精品单品豆工坊，从深夜开放的鸡尾酒咖啡混搭到街角学生据点，<strong>每家都有自己鲜明的个性</strong>。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Yemeni Coffee & Tea</div><div class="card-name">Jabal Coffee House</div><div class="card-desc">灯光氛围绝佳的也门咖啡馆，Adeni Tea 用精美玻璃杯端上，Taro Cloud Matcha Latte 是意外惊喜。周五周六营业到午夜，适合独处读书或约会。</div><div class="card-tip"><span class="tip-mark">✦</span>甜点水准和饮品同级，不要只点饮料。</div><div class="card-meta"><span class="meta-pill">341 E Huron St</span><span class="meta-pill">Fri–Sat until midnight</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Specialty Roaster · Coffee Flights</div><div class="card-name">Vertex Coffee Roasters</div><div class="card-desc">Coffee Flight 是必点体验——四款不同风格的咖啡一次品尽。糖浆全部自制，店内有书租借盒，适合边读边喝。</div><div class="card-tip"><span class="tip-mark">✦</span>空间不大但氛围绝佳。下午 5 点关门，比多数咖啡馆早，注意时间。</div><div class="card-meta"><span class="meta-pill">1335 S University Ave</span><span class="meta-pill">Daily 7am–5pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-muted)"></div><div class="card-tag">Yemeni Coffee · Desserts</div><div class="card-name">Socotra Coffee House</div><div class="card-desc">Packard St 上的也门咖啡馆，肉桂豆蔻 Cafe Latte 和开心果芝士蛋糕闻名。Adeni Chai 是 Ann Arbor 最佳版本之一，停车位充足，桌上有正能量留言。</div><div class="card-tip"><span class="tip-mark">✦</span>Mofawar 咖啡是隐藏款，室内外皆有座位。</div><div class="card-meta"><span class="meta-pill">3130 Packard St</span><span class="meta-pill">Daily 8am–midnight</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Cocktails + Coffee · Late Night</div><div class="card-name">1824 Cocktails & Coffee</div><div class="card-desc">极具设计感的空间——高挑天花板、木质装饰，既是白天咖啡馆，也是夜晚鸡尾酒吧。周六从上午 11 点营业，周五周六至午夜，可以在同一张桌子从早喝到晚。</div><div class="card-tip"><span class="tip-mark">✦</span>工作日晚间是"咖啡切换鸡尾酒"的完美地点，完全不用换场。</div><div class="card-meta"><span class="meta-pill">413 E Huron St Suite C</span><span class="meta-pill">Tue–Sun</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Third Place · Downtown</div><div class="card-name">Hyperion Coffee Co</div><div class="card-desc">W Liberty St 上的"真正第三空间"，Barista 对咖啡的理解深入但不卖弄。Medium Roast Single Origin 是常客钟爱的方向，户外座位在夏季绝佳。</div><div class="card-tip"><span class="tip-mark">✦</span>进去后主动问 Barista 最近的豆子状态，他们乐于讲解。</div><div class="card-meta"><span class="meta-pill">111 W Liberty St</span><span class="meta-pill">Daily 7am–6pm</span><span class="meta-rating">★ 4.7</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="aa-nature">
+    <div class="sec-header"><div class="sec-num">03</div><div><h2 class="sec-title">城市里的<br>自然秘境</h2><div class="sec-sub">Nature Areas · Trails · River Parks</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Ann Arbor 拥有超过 <strong>160 个公园和自然保护区</strong>，Huron River 穿城而过，串联起众多绿色秘境。最好的探索方式：骑车或步行，带上一本书和一杯咖啡。</p></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">University Arboretum · Peony Garden</div><div class="card-name">The Arboretum (The Arb)</div><div class="card-desc">密歇根大学的植物园兼自然保护区，是 Ann Arbor 本地人的精神后花园。五月牡丹园盛开时是全城最美景象，Huron River 从园中流过，免费入场。</div><div class="card-tip"><span class="tip-mark">✦</span>牡丹盛开通常在五月中旬，工作日人更少。秋色同样令人窒息。</div><div class="card-meta"><span class="meta-pill">Ann Arbor, MI 48109</span><span class="meta-pill">Free · Always Open</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">River · Dam · Kayak Launch</div><div class="card-name">Barton Nature Area</div><div class="card-desc">Huron River 上游的城市公园，有水坝、冬季冰冻景观和极佳的皮划艇下水点。蘑菇、毛茸茸的蚜虫和各种水鸟是自然观察的常客。</div><div class="card-tip"><span class="tip-mark">✦</span>带皮划艇来可以顺流而下，一路连接多个自然区。冬天结冰的水坝有别样苍茫美感。</div><div class="card-meta"><span class="meta-pill">1010 W Huron River Dr</span><span class="meta-pill">Daily 6am–10pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-muted)"></div><div class="card-tag">Hilly Trails · Bird Watching</div><div class="card-name">Bird Hills Nature Area</div><div class="card-desc">Newport Rd 入口的城市徒步秘境，地形起伏丰富，植被覆盖密。鸟类种类繁多，是观鸟者的心头好，路径较复杂，建议离线下载地图。</div><div class="card-tip"><span class="tip-mark">✦</span>进入内部后公路噪音消散，进入真正的宁静。适合中等体力的徒步者。</div><div class="card-meta"><span class="meta-pill">1850 Newport Rd</span><span class="meta-pill">Daily 7am–10pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Nature Preserve · Wildlife</div><div class="card-name">Furstenberg Nature Area</div><div class="card-desc">被本地人视为"最爱公园"的隐秘保护区，与 Gallup Park 相连，有貂、鹿、浣熊、各类水鸟出没。有加热厕所——冬季徒步者的奢侈享受。</div><div class="card-tip"><span class="tip-mark">✦</span>连接 Gallup Park 后步道可延伸很长，带上充足时间。</div><div class="card-meta"><span class="meta-pill">2626 Fuller Rd</span><span class="meta-pill">Daily 6am–10pm</span><span class="meta-rating">★ 4.7</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="aa-culture">
+    <div class="sec-header"><div class="sec-num">04</div><div><h2 class="sec-title">文化艺术<br>的呼吸空间</h2><div class="sec-sub">Museums · Galleries · Art Centers</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Ann Arbor 的文化生态以大学为核心，但不局限于此。<strong>UMMA 永久免费开放</strong>，艺术中心定期举办工作坊，Hill Auditorium 的古典音乐是密歇根最引以为傲的文化符号。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">University Art Museum · Free</div><div class="card-name">UM Museum of Art (UMMA)</div><div class="card-desc">密歇根大学的世界级艺术博物馆，含四幅毕加索原作，永久免费。周四周五延长至晚 8 点，适合下班后顺路造访，拍照自由。</div><div class="card-tip"><span class="tip-mark">✦</span>特展更换频繁，每季必刷。工作人员乐于讲解，是真正的社区资产。</div><div class="card-meta"><span class="meta-pill">525 S State St</span><span class="meta-pill">Tue–Sun · Free</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Community Art · Workshops</div><div class="card-name">Ann Arbor Art Center (A2AC)</div><div class="card-desc">既是画廊也是工作坊空间，陶艺约会之夜、版画制作、绘画课程是认识本地艺术社群最快的切入口。画廊每日免费开放。</div><div class="card-tip"><span class="tip-mark">✦</span>陶艺 Date Night 评价极高，强烈推荐和朋友或伴侣一起来。</div><div class="card-meta"><span class="meta-pill">117 W Liberty St</span><span class="meta-pill">Daily 10am–7pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-muted)"></div><div class="card-tag">Independent Art Gallery</div><div class="card-name">Gutman Gallery</div><div class="card-desc">展示本地及新兴艺术家的绘画、摄影、陶瓷、玻璃艺术和纺织品，价格亲民而品质出众。每次造访都有轮换展览，是寻找独一无二礼物的好地方。</div><div class="card-tip"><span class="tip-mark">✦</span>员工知识渊博且不施压，是真正能坐下来聊艺术的地方。</div><div class="card-meta"><span class="meta-pill">118 N 4th Ave</span><span class="meta-pill">Wed–Sat 11am–5pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Farmers Market · Saturday</div><div class="card-name">Ann Arbor Farmers Market</div><div class="card-desc">Kerrytown 区每周六上午举行的户外市集，是 Ann Arbor 最重要的社区仪式之一。本地农场、手工果酱、鲜花、烘焙，以及认识邻居的最好机会。周三也有小型市集。</div><div class="card-tip"><span class="tip-mark">✦</span>早上 7 点到早市——人少、菜最新鲜。带布袋，准备满载而归。</div><div class="card-meta"><span class="meta-pill">315 Detroit St · Kerrytown</span><span class="meta-pill">Sat 7am · Wed 8am</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="aa-books">
+    <div class="sec-header"><div class="sec-num">05</div><div><h2 class="sec-title">书城<br>Ann Arbor</h2><div class="sec-sub">Independent Bookstores · Used · Specialty</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Ann Arbor 被誉为<strong>美国最佳书城之一</strong>，拥有密度惊人的独立书店——新书、旧书、Beat Generation、灵性读物、儿童绘本，每一家都是独立的宇宙。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">New Books · Events · Downtown</div><div class="card-name">Literati Bookstore</div><div class="card-desc">三层楼的独立书店旗舰，是 Ann Arbor 书店生态的核心。Staff Picks 从不让人失望，有公共打字机和精选文具。自然类书目尤其出色，作者活动频繁。</div><div class="card-tip"><span class="tip-mark">✦</span>打字机区是拍照和留下只言片语的好地方。周五营业到晚 9 点。</div><div class="card-meta"><span class="meta-pill">124 E Washington St</span><span class="meta-pill">Daily 10am–9pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Used Books · Treasure Hunt</div><div class="card-name">The Dawn Treader Book Shop</div><div class="card-desc">大型旧书殿堂，书架直冲天花板，历史类藏书尤为丰富。被资深书迷誉为"美国最好的旧书店之一"，每次来都有新发现。</div><div class="card-tip"><span class="tip-mark">✦</span>店主知识渊博，告诉他阅读兴趣，他会为你指路。每周有新入库。</div><div class="card-meta"><span class="meta-pill">514 E Liberty St</span><span class="meta-pill">Daily 11am–8pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-muted)"></div><div class="card-tag">Beat Generation · Collectible</div><div class="card-name">Third Mind Books</div><div class="card-desc">专注 Beat Generation 文学的精品书店，收藏稀缺版本和绝版书的最佳去处。Owner Arthur 是活的文学百科，进来聊几句是额外的奖赏。</div><div class="card-tip"><span class="tip-mark">✦</span>如果你喜欢文学史，这里是朝圣地。周日下午 5 点关门，早去。</div><div class="card-meta"><span class="meta-pill">118 E Washington St</span><span class="meta-pill">Daily 11am–8pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Spiritual · Metaphysical · Tea Café</div><div class="card-name">Crazy Wisdom Bookstore</div><div class="card-desc">灵性读物与生活方式书店，二楼有茶咖啡空间，偶尔有塔罗牌占卜师驻场。精油、水晶、神谕牌一应俱全，是 Ann Arbor 最有个性的空间之一。</div><div class="card-tip"><span class="tip-mark">✦</span>二楼茶馆是安静读书的宝藏角落。周五营业至晚 10 点。</div><div class="card-meta"><span class="meta-pill">114 S Main St</span><span class="meta-pill">Daily 11am–10pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Neighborhood · Kids</div><div class="card-name">Booksweet</div><div class="card-desc">温馨的社区书店，儿童区是其灵魂所在——"神秘包装书"系列让小朋友凭直觉选书，收获惊喜。店员对书单推荐极为用心。</div><div class="card-tip"><span class="tip-mark">✦</span>与附近的 Cardamom 餐厅组合是完美的周末午后安排。</div><div class="card-meta"><span class="meta-pill">1729 Plymouth Rd</span><span class="meta-pill">Daily 11am–8pm</span><span class="meta-rating">★ 4.9</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="aa-drinks">
+    <div class="sec-header"><div class="sec-num">06</div><div><h2 class="sec-title">夜幕之后<br>该去哪里</h2><div class="sec-sub">Cocktail Bars · Speakeasies · Craft Beer</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Ann Arbor 的夜晚因密歇根大学而充满活力，但城市也有属于<strong>大人的安静角落</strong>——精心调制的鸡尾酒、地窖式 Speakeasy、精酿啤酒花园。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Speakeasy · Craft Cocktails</div><div class="card-name">The Last Word</div><div class="card-desc">暗调、温暖、不做作——是 Ann Arbor 最被本地人珍视的夜间去处之一。Islay Sour 是传奇，服务员甚至会为外地客人手写其他城市的餐厅推荐。</div><div class="card-tip"><span class="tip-mark">✦</span>在吧台点单，告诉调酒师口味偏好，他们的即兴创作远超菜单。周日不营业。</div><div class="card-meta"><span class="meta-pill">301 W Huron St</span><span class="meta-pill">Mon–Sat from 5pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:#6a9aaa"></div><div class="card-tag">Neighborhood Bar · Perfect Score</div><div class="card-name">The Hidden King</div><div class="card-desc">满分 5.0 的社区酒吧，以 Ann Arbor 历史照片装饰，棋盘可以在喝酒时大战一局。Cold Brew Martini 和羊奶酪开胃小食是招牌。甚至出售苦艾酒单杯——极为罕见。</div><div class="card-tip"><span class="tip-mark">✦</span>仅周四至周日营业，周日下午 3 点开始。主 St 上最低调的入口。</div><div class="card-meta"><span class="meta-pill">210 S Main St</span><span class="meta-pill">Thu–Sun from 3pm</span><span class="meta-rating">★ 5.0</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-muted)"></div><div class="card-tag">Craft Beer · 37 Taps</div><div class="card-name">The Grotto - Watering Hole</div><div class="card-desc">砖石地窖氛围浓厚的精酿啤酒吧，37 个龙头，调酒师 Don 是传奇人物。可自带食物进来，户外座位加热灯让冬夜也舒适，啤酒种类在 Ann Arbor 属于最广之列。</div><div class="card-tip"><span class="tip-mark">✦</span>Witch's Hat 系列出现时务必入手。不忙时选择桌边服务更舒适。</div><div class="card-meta"><span class="meta-pill">303 S Ashley St</span><span class="meta-pill">Daily from 3pm</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-aa-gold)"></div><div class="card-tag">Underground Speakeasy</div><div class="card-name">Rabbit Hole</div><div class="card-desc">真正的地下 Speakeasy，禁酒令时代风格的洞穴空间，苦艾酒以传统方式端上——仅此一项已值得专程前来。入场 $5，周四周五开门，早去气氛最佳。</div><div class="card-tip"><span class="tip-mark">✦</span>8–10pm 是黄金时段，夜深后变成舞场，若只想喝酒聊天，早去为妙。</div><div class="card-meta"><span class="meta-pill">210 S 1st St</span><span class="meta-pill">Thu–Fri from 8pm</span><span class="meta-rating">★ 4.3</span></div></div>
+    </div>
+  </div>
+
+  <footer class="city-footer"><span class="footer-city-name">A N N · A R B O R</span><p class="footer-sub">Washtenaw County · Michigan · Go Blue</p></footer>
+</div>
+
+<!-- ══════════════════════════════════
+     GUIDE: CHARLOTTESVILLE
+══════════════════════════════════ -->
+<div class="guide guide-cv" id="guide-cv">
+  <div class="city-header">
+    <div class="city-header-text">
+      <button class="city-back" onclick="goHome()">← 返回选择城市</button>
+      <h1 class="city-header-name">Charlot<br>tes<em>ville</em></h1>
+      <div class="city-header-sub">Albemarle County · Virginia · UVA Town</div>
+      <p class="city-header-desc">葡萄酒庄园、蓝岭山脉、Thomas Jefferson 的遗产与一个充满活力的 Downtown Mall——Charlottesville 是一座藏在山水之间的文化小城，值得慢慢发现。</p>
+    </div>
+    <div class="city-header-visual">
+      <div class="header-big-letter">CV</div>
+      <div class="header-coords">Charlottesville · Virginia<br>38°02′N · 78°28′W</div>
+    </div>
+  </div>
+  <nav class="cat-nav" id="nav-cv">
+    <button class="cat-tab active" onclick="showCat('cv','food')">🍽 餐饮</button>
+    <button class="cat-tab" onclick="showCat('cv','coffee')">☕ 咖啡</button>
+    <button class="cat-tab" onclick="showCat('cv','nature')">🌿 自然</button>
+    <button class="cat-tab" onclick="showCat('cv','culture')">🎨 文化艺术</button>
+    <button class="cat-tab" onclick="showCat('cv','books')">📚 书店</button>
+    <button class="cat-tab" onclick="showCat('cv','drinks')">🥂 酒吧</button>
+  </nav>
+
+  <div class="cat-section active" id="cv-food">
+    <div class="sec-header"><div class="sec-num">01</div><div><h2 class="sec-title">山水之间<br>的味道</h2><div class="sec-sub">Restaurants · Farm-to-Table · Hidden Doors</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Charlottesville 的餐饮场景因弗吉尼亚葡萄酒文化而格外丰富，很多餐厅会精心配搭本地酒庄的佳酿。<strong>Downtown Mall 步行街</strong>是美食集中地，但最好的惊喜藏在它的周边街道里。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Speakeasy · New American</div><div class="card-name">Aster</div><div class="card-desc">藏在 Glasshouse 大楼里，门外只有一块金色小铭牌的神秘餐厅，Speakeasy 氛围浓烈。Crab Toast、Beef Tartare 和 Confit Cabbage 是令人惊叹的出品，创意鸡尾酒同样出色。满分口碑。</div><div class="card-tip"><span class="tip-mark">✦</span>入口在 2nd St SE，门牌极小，需要认真找。订座前确认，周一周日不营业。</div><div class="card-meta"><span class="meta-pill">313 2nd St SE #105</span><span class="meta-pill">Tue–Sat from 5pm</span><span class="meta-rating">★ 5.0</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Turkish · Fine Dining</div><div class="card-name">Smyrna</div><div class="card-desc">W Main St 上的土耳其风情精品餐厅，4.9 分的口碑几乎无懈可击。Manti Pasta、Pistachio Baklava Cheesecake 和创意鸡尾酒令人惊喜。Mezze Trio 和 Beet Salad 是常客点名之作。</div><div class="card-tip"><span class="tip-mark">✦</span>Amaro 选择丰富，是饭后消食的绝佳选择。Burger 被客人评为"此生最佳"。</div><div class="card-meta"><span class="meta-pill">707 W Main St</span><span class="meta-pill">Wed–Sun from 5pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Plant-Based · Brunch · Coffee</div><div class="card-name">Botanical Plant-Based Fare</div><div class="card-desc">E Main St 上的全植物餐厅，即使你不是素食者也值得一来。Gochu Street Corn、Miso Mac & Cheese 和 Crispy Cauliflower Bowl 让人忘记肉的存在，咖啡出品同样获得高度评价。</div><div class="card-tip"><span class="tip-mark">✦</span>Wonton Nachos 是意外的惊喜必点。Okono Cakes 配 Gochujang 酱非常上瘾。</div><div class="card-meta"><span class="meta-pill">421 E Main St</span><span class="meta-pill">Tue–Sun from 9am</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">New American · Intimate</div><div class="card-name">Mockingbird</div><div class="card-desc">Monticello Rd 上的低调精品餐厅，以一致的高水准和亲切的服务著称。Bison Hanger Steak、Smoked Chicken 和 Chocolate Bourbon Pecan Pie 是令人念念不忘的组合，老板常亲自来桌问候。</div><div class="card-tip"><span class="tip-mark">✦</span>New Year's Eve 四道菜 Prix Fixe 被评为"近乎完美的餐饮体验"。常客的秘密基地。</div><div class="card-meta"><span class="meta-pill">421 Monticello Rd</span><span class="meta-pill">Wed–Sun from 5pm</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Dim Sum · Ramen · Dumplings</div><div class="card-name">Bambu Dumpling & Noodle House</div><div class="card-desc">5th Street Station 里的亚洲美食珍宝，将纽约式港式点心带到了弗吉尼亚。Ha Cao 虾饺、Pork Shumai 和 Tonkatsu Ramen 皆属上乘，7 分钟出餐效率惊人。</div><div class="card-tip"><span class="tip-mark">✦</span>General Tso's Chicken 是最受欢迎的单品。Bubble Tea 也很不错，物超所值。</div><div class="card-meta"><span class="meta-pill">245 Merchant Walk Ave</span><span class="meta-pill">Tue–Sun 11am–9:30pm</span><span class="meta-rating">★ 4.5</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">New American · Hotel Restaurant</div><div class="card-name">The Ridley</div><div class="card-desc">W Main St 上 Draftsman Hotel 内的餐厅，以全城最佳 Cast Iron Cornbread 著称——甜咸平衡出类拔萃。Short Rib 和 Pasta 都有扎实的水准，空间现代温暖。</div><div class="card-tip"><span class="tip-mark">✦</span>Cornbread 是必点，其他菜单项目水准参差，先试 Cornbread 不会错。</div><div class="card-meta"><span class="meta-pill">1106 W Main St</span><span class="meta-pill">Daily 7am–10pm</span><span class="meta-rating">★ 4.1</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="cv-coffee">
+    <div class="sec-header"><div class="sec-num">02</div><div><h2 class="sec-title">Cville<br>咖啡地图</h2><div class="sec-sub">Specialty Coffee · Roasters · Cafés</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Charlottesville 的咖啡文化受 UVA 学生和本地学者共同塑造——对品质有追求，对氛围有期待，对<strong>慢下来喝一杯</strong>抱有诚意。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Specialty Coffee · Best in Cville</div><div class="card-name">Give & Take Coffee</div><div class="card-desc">W Main St 上被本地人评为"Charlottesville 最佳咖啡馆"的精品小店。Light Roast Pour Over 和 Espresso 各有一款，Espresso 附赠气泡水，老板亲力亲为，豆单多元。</div><div class="card-tip"><span class="tip-mark">✦</span>点单时会问你的名字——Cville 唯一这样做的咖啡馆。告诉 Barista 你的偏好，推荐会很精准。</div><div class="card-meta"><span class="meta-pill">416 W Main St A</span><span class="meta-pill">Daily 7:30am–4pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Asian Pastries · Roastery Bar</div><div class="card-name">Camellias Bar & Roastery</div><div class="card-desc">Preston Ave 上的亚洲风格烘焙咖啡馆，以弗吉尼亚第一家亚式甜品咖啡馆著称。Thai Tea Croissant 是传奇，饮品直接送到桌边，Lavender Mocha 精致不过甜。</div><div class="card-tip"><span class="tip-mark">✦</span>店员有时会送出面包起酵种——如果你幸运地遇到，是珍贵的礼物。Gyoza 是惊喜的咸食选项。</div><div class="card-meta"><span class="meta-pill">400 Preston Ave #150</span><span class="meta-pill">Daily 8am–6pm</span><span class="meta-rating">★ 4.5</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Community Roaster · Classic</div><div class="card-name">Shenandoah Joe Coffee Roasters</div><div class="card-desc">Preston Ave 上有三家分店的本地咖啡烘焙品牌，是 Charlottesville 咖啡版图的基石。老式家具和高脚凳营造出随意的学术氛围，Chai Latte 是隐藏佳品。早上 6:30 就开门。</div><div class="card-tip"><span class="tip-mark">✦</span>堂食提供真实玻璃杯，是对慢下来喝咖啡的温柔邀请。</div><div class="card-meta"><span class="meta-pill">945 Preston Ave</span><span class="meta-pill">Daily from 6:30am</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Family Café · Piano · Kids Friendly</div><div class="card-name">First Free Coffee Bar</div><div class="card-desc">Towncenter Ln 上有钢琴、儿童游乐区和安静氛围的温馨咖啡馆，员工会把饮品送到桌边。Americano 和抹茶饮品评价极高，对面就是 Farmers Market，周六上午是完美组合。</div><div class="card-tip"><span class="tip-mark">✦</span>带小孩来的完美选择。安静氛围适合工作或读书，不赶人走。</div><div class="card-meta"><span class="meta-pill">340 Towncenter Ln</span><span class="meta-pill">Daily 7am–5pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Living Wage Coffee · Craft</div><div class="card-name">Tribute Coffee</div><div class="card-desc">Arlington Blvd 上的精品小店，以向员工支付生活工资著称，不额外收取替代奶附加费。Spiced Brown Sugar Iced Latte 是招牌，自制糖浆和烘焙食品水准稳定。</div><div class="card-tip"><span class="tip-mark">✦</span>周一不营业。如果你在乎用消费支持公正薪酬，这家是首选。</div><div class="card-meta"><span class="meta-pill">1932 Arlington Blvd #8</span><span class="meta-pill">Tue–Sun 7am–3pm</span><span class="meta-rating">★ 4.9</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="cv-nature">
+    <div class="sec-header"><div class="sec-num">03</div><div><h2 class="sec-title">蓝岭山脉<br>脚下的绿</h2><div class="sec-sub">Preserves · Trails · Blue Ridge Foothills</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Charlottesville 坐落在蓝岭山脉东麓，是弗吉尼亚自然资源最丰富的城市之一。<strong>Shenandoah National Park</strong> 仅 45 分钟车程，但城市内外就有令人惊叹的步道和保护区。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Nature Preserve · Best Marked Trails</div><div class="card-name">Ivy Creek Foundation</div><div class="card-desc">Earlysville Rd 上的自然保护区，拥有弗吉尼亚最清晰的步道标识系统。野花、溪流、林地，以及一座讲述解放后非裔美国人历史的农庄。春季蝴蝶和野花盛开。</div><div class="card-tip"><span class="tip-mark">✦</span>步道互相交叉，可以自由组合长度，适合所有体力水平。秋季色彩令人窒息。</div><div class="card-meta"><span class="meta-pill">1780 Earlysville Rd</span><span class="meta-pill">Daily 7am–8pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Trail · Monticello · History</div><div class="card-name">Saunders-Monticello Trail</div><div class="card-desc">连接停车场和 Monticello 的 2 英里步道，沿途有 10 座木栈桥，全程平坦易行，适合各年龄层，终点直通 Monticello 访客中心（免费展厅）。适合徒步后顺便参观历史遗址。</div><div class="card-tip"><span class="tip-mark">✦</span>步道终点的洗手间干净，展厅免费开放。秋叶季节色彩最美。</div><div class="card-meta"><span class="meta-pill">503 Thomas Jefferson Pkwy</span><span class="meta-pill">Daily 7am–7pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">River Trail · Neighborhood</div><div class="card-name">Greenbrier Park</div><div class="card-desc">Greenbrier Dr 上沿溪流而行的社区步道，木栈桥、石头跳越和 QR 码植物标识让它成为亲子探险的理想去处。比大型保护区更随性，随时可以进来走走。</div><div class="card-tip"><span class="tip-mark">✦</span>推荐从 Jamestown Dr 停车，或在 Brandywine & Greenbrier 交叉口路边停。</div><div class="card-meta"><span class="meta-pill">1900 Greenbrier Dr</span><span class="meta-pill">Daily 6am–9pm</span><span class="meta-rating">★ 4.5</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">River Trail · Swimming · Fishing</div><div class="card-name">Rivanna Trail</div><div class="card-desc">环绕 Charlottesville 的长距离步道系统，可以钓鱼、游泳或仅仅沿河漫步。特别推荐 River Bend 段——低水位时可走到河岸"沙滩"，带来意外的野趣。</div><div class="card-tip"><span class="tip-mark">✦</span>24 小时开放。路线较长，建议选取一段探索，不必全走。</div><div class="card-meta"><span class="meta-pill">1835 Broadway St (一处入口)</span><span class="meta-pill">Open 24hrs</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Mountain Preserve · Remote</div><div class="card-name">Patricia Ann Byrom Forest Preserve</div><div class="card-desc">距 Charlottesville 约 30 分钟的 600 英亩山地森林保护区，前往途中的马场乡间公路已是美景。多条难度不同的步道通往 Little Flat Mountain 山顶，视野开阔，设施出人意料地完善。</div><div class="card-tip"><span class="tip-mark">✦</span>夏季注意恙虫（chiggers），秋冬最佳。停车场约 10 个位，早到。手机信号很差，提前下载离线地图。</div><div class="card-meta"><span class="meta-pill">Crozet, VA 22932 (Rt 810)</span><span class="meta-pill">Open 24hrs · Free</span><span class="meta-rating">★ 4.8</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="cv-culture">
+    <div class="sec-header"><div class="sec-num">04</div><div><h2 class="sec-title">文化艺术<br>的呼吸空间</h2><div class="sec-sub">Galleries · Museums · Art Parks</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Charlottesville 的文化生态由 UVA 和本地艺术家社区共同构建，<strong>McGuffey Art Center</strong> 是驻留艺术家的精神家园，而 IX Art Park 则是全天候开放的户外艺术场域。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Artist Studios · Community Gallery</div><div class="card-name">McGuffey Art Center</div><div class="card-desc">2nd St NW 上的驻留艺术家中心，三层楼的老建筑里住着玻璃吹制、摄影、纺织等各门类艺术家，每个工作室门上的"Come In"牌子是真诚的邀请。</div><div class="card-tip"><span class="tip-mark">✦</span>周五延长至晚 8 点，周日下午 5 点关门。大胆推开一扇带 Come In 牌的门，艺术家们乐于聊天。</div><div class="card-meta"><span class="meta-pill">201 2nd St NW</span><span class="meta-pill">Tue–Sun</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">UVA Art Museum · Free</div><div class="card-name">The Fralin Museum of Art</div><div class="card-desc">UVA 校园内的艺术博物馆，永久免费，有独立停车场（也免费）。展览涵盖现代艺术、古代文物和多元文化装置，规模精巧，一小时可获得完整体验。</div><div class="card-tip"><span class="tip-mark">✦</span>停车在博物馆后面，网站有说明。工作人员热情，可以请他们推荐当期最值得看的展览。</div><div class="card-meta"><span class="meta-pill">155 Rugby Rd</span><span class="meta-pill">Tue–Sun · Free</span><span class="meta-rating">★ 4.5</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Outdoor Art Park · Free</div><div class="card-name">IX Art Park</div><div class="card-desc">2nd St SE 上永久免费的户外艺术公园，24 小时开放，涂鸦、装置和儿童游乐区共存。旁边是一家酿酒厂，有活动时气氛极佳。The Looking Glass 沉浸式艺术体验就在园内。</div><div class="card-tip"><span class="tip-mark">✦</span>有活动时来体验完全不同的气氛。常规参观只需 15 分钟，但可以随时坐下来发呆。</div><div class="card-meta"><span class="meta-pill">522 2nd St SE</span><span class="meta-pill">Open 24hrs · Free</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Immersive Art Experience</div><div class="card-name">The Looking Glass</div><div class="card-desc">IX Art Park 内的沉浸式艺术展览空间，本地艺术家作品汇聚一室，有互动装置、寻宝游戏和小酒吧。半价周五（Fri 6–10pm）是性价比最高的时段，$15 门票。</div><div class="card-tip"><span class="tip-mark">✦</span>周六早场（10am–6pm）适合带孩子，周五晚上适合成人探索。期待的同时放低预期，空间比照片看起来小。</div><div class="card-meta"><span class="meta-pill">522 2nd St SE Suite D</span><span class="meta-pill">Thu–Sun</span><span class="meta-rating">★ 4.6</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="cv-books">
+    <div class="sec-header"><div class="sec-num">05</div><div><h2 class="sec-title">Downtown<br>书店漫游</h2><div class="sec-sub">Independent Bookstores · Used Books</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Charlottesville 的 Downtown Mall 步行街上藏着几家风格各异的独立书店，从地下迷宫式旧书店到酒店内的精品新书空间，构成一条完美的<strong>书店漫游路线</strong>。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">New Books · Jazz Nights</div><div class="card-name">Ginkgo Bookshop</div><div class="card-desc">Elliewood Ave 上的精品小书店，店主 Max 知识渊博且亲切，还有时不时出现的书店狗。不定期举办爵士夜，是 Charlottesville 最有灵魂的新书店之一。</div><div class="card-tip"><span class="tip-mark">✦</span>书店狗是隐藏福利。关注他们的活动，爵士夜是美好的社区时刻。</div><div class="card-meta"><span class="meta-pill">5 Elliewood Ave</span><span class="meta-pill">Daily 10am–6pm</span><span class="meta-rating">★ 4.9</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Used Books · Labyrinth</div><div class="card-name">Daedalus Used Bookshop</div><div class="card-desc">Heather Heyer Way 上的传奇旧书迷宫，被一位来自俄勒冈的旅行者评为"比 Powells 更好"。每面墙、每个角落和楼梯间全部利用，据说藏书超过 10 万册，地下室容易迷路。</div><div class="card-tip"><span class="tip-mark">✦</span>Modern Library 系列藏书尤为出色，店主会即时为未定价的书定价。周五周六可到晚 8 点。</div><div class="card-meta"><span class="meta-pill">123 Heather Heyer Way</span><span class="meta-pill">Mon–Sat, Sun from noon</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">New Books · Hotel Bookstore</div><div class="card-name">Commerce Street Books</div><div class="card-desc">W Main St 上 Doyle Hotel 内的精品书店，精心策划的选书和美丽的空间，儿童区尤为受欢迎。经常举办作者活动，是 Cville 最新也最受期待的书店之一。</div><div class="card-tip"><span class="tip-mark">✦</span>在酒店画廊空间内，氛围比普通书店更有仪式感。周日下午 5 点关门。</div><div class="card-meta"><span class="meta-pill">499 W Main St (Doyle Hotel)</span><span class="meta-pill">Tue–Sun</span><span class="meta-rating">★ 5.0</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">New Books · Downtown Mall</div><div class="card-name">New Dominion Bookshop</div><div class="card-desc">E Main St 步行街上的老牌独立书店，选品丰富，位置最便利，没有的书可帮忙订购，还附赠精美帆布袋。Dog Friendly（打电话确认）。是逛完 Downtown Mall 的完美收尾。</div><div class="card-tip"><span class="tip-mark">✦</span>周四周五周六营业到晚 9 点，是最晚开的书店。楼上有舒适的阅读区。</div><div class="card-meta"><span class="meta-pill">404 E Main St</span><span class="meta-pill">Tue–Sun, until 9pm Thu–Sat</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Used & Antique · Maps & Prints</div><div class="card-name">Blue Whale Books</div><div class="card-desc">W Main St 上的旧书与艺术印刷品宝库，1800 年代的英国地图和古典哲学书可以在这里意外相遇。中间有舒适的沙发，氛围如图书馆，可以邮寄购买的书。</div><div class="card-tip"><span class="tip-mark">✦</span>古地图和历史印刷品区值得细细翻看，经常有珍贵发现。周五周六营业至晚 10 点。</div><div class="card-meta"><span class="meta-pill">115 W Main St</span><span class="meta-pill">Daily 10am–9/10pm</span><span class="meta-rating">★ 4.7</span></div></div>
+    </div>
+  </div>
+
+  <div class="cat-section" id="cv-drinks">
+    <div class="sec-header"><div class="sec-num">06</div><div><h2 class="sec-title">夜晚的<br>Charlottesville</h2><div class="sec-sub">Cocktail Bars · Speakeasies · Wine</div></div></div>
+    <div class="cards">
+      <div class="intro-banner"><div class="intro-bar"></div><p>Charlottesville 的酒吧文化因弗吉尼亚葡萄酒产区而独树一帜，但最令人惊喜的夜晚其实藏在一些<strong>低调的 Speakeasy</strong> 和精致的 Whiskey Bar 里。</p></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">Speakeasy · World-Class Cocktails</div><div class="card-name">Lost Saint</div><div class="card-desc">藏在 Tavern & Grocery 地下的 Speakeasy，低调入口背后是令人惊艳的调酒艺术。Barista Lindsey 被誉为"Ann Arbor 之外最有直觉的调酒师"，鸡尾酒创意十足，薯条也很好吃。</div><div class="card-tip"><span class="tip-mark">✦</span>坐在吧台，告诉调酒师你的口味，让他们为你即兴创作——这里的调酒师值得信赖。</div><div class="card-meta"><span class="meta-pill">333 W Main St</span><span class="meta-pill">Wed–Sat from 5pm</span><span class="meta-rating">★ 4.6</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Whiskey Bar · Hotel · Rooftop</div><div class="card-name">Speakeasy at The Doyle Hotel</div><div class="card-desc">W Main St 上 Doyle Hotel 内的精品威士忌酒吧，海军蓝、皮质和黄铜装饰营造出成熟典雅的气氛。调酒师 Joel 被誉为"真正的专家"，Whiskey 知识令人折服，圣诞节特别活动出名。</div><div class="card-tip"><span class="tip-mark">✦</span>同楼有 Commerce Street Books，可以先买一本书，再来这里慢慢喝。仅周四至周六开放。</div><div class="card-meta"><span class="meta-pill">499 W Main St</span><span class="meta-pill">Thu–Sat from 5pm</span><span class="meta-rating">★ 4.8</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-green)"></div><div class="card-tag">French Small Plates · Intimate</div><div class="card-name">The Alley Light</div><div class="card-desc">2nd St SW 上藏在小巷里的法式小馆兼酒吧，壁炉、橡木和黑板菜单营造出浪漫私密的氛围。每周更换的特别菜单让每次造访都有新发现，Beef Tartare 是常客必点。</div><div class="card-tip"><span class="tip-mark">✦</span>黑板特别菜单往往比常规菜单更出彩，务必问问当日有什么。单独饮酒或两人小酌皆宜。</div><div class="card-meta"><span class="meta-pill">108 2nd St SW</span><span class="meta-pill">Wed–Sun from 5pm</span><span class="meta-rating">★ 4.7</span></div></div>
+      <div class="card"><div class="card-line" style="background:var(--c-cv-terra)"></div><div class="card-tag">Plant-Based Bar · Mountain Views</div><div class="card-name">Bar Botanical (Crozet)</div><div class="card-desc">距 Charlottesville 约 20 分钟的 Crozet 小镇，这家全植物鸡尾酒吧拥有蓝岭山脉的日落全景——让人一进去就忘记离开。Juicebox 鸡尾酒和 Lentil Tacos 是招牌，素食者的天堂。</div><div class="card-tip"><span class="tip-mark">✦</span>日落时分前来，景色最美。即使不是素食者，这里的创意鸡尾酒也令人折服。</div><div class="card-meta"><span class="meta-pill">2025 Library Ave, Crozet</span><span class="meta-pill">Wed–Sat from 4pm</span><span class="meta-rating">★ 4.9</span></div></div>
+    </div>
+  </div>
+
+  <footer class="city-footer"><span class="footer-city-name">C H A R L O T T E S V I L L E</span><p class="footer-sub">Albemarle County · Virginia · A Hidden Gems Companion</p></footer>
+</div>
+
+<script>
+// State
+let currentCity = null;
+
+// Open city guide
+function openCity(city) {
+  document.getElementById('hero').style.display = 'none';
+  ['mc','aa','cv'].forEach(c => {
+    const g = document.getElementById('guide-' + c);
+    g.classList.toggle('active', c === city);
+  });
+  currentCity = city;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Return to hero
+function goHome() {
+  ['mc','aa','cv'].forEach(c => document.getElementById('guide-' + c).classList.remove('active'));
+  document.getElementById('hero').style.display = 'grid';
+  currentCity = null;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Switch category tab
+function showCat(city, cat) {
+  // hide all sections for this city
+  document.querySelectorAll(`#guide-${city} .cat-section`).forEach(s => s.classList.remove('active'));
+  document.querySelectorAll(`#nav-${city} .cat-tab`).forEach(t => t.classList.remove('active'));
+
+  // show target
+  const sec = document.getElementById(city + '-' + cat);
+  if (sec) sec.classList.add('active');
+
+  // find clicked tab
+  const tabs = document.querySelectorAll(`#nav-${city} .cat-tab`);
+  const catMap = {
+    mc: ['food','coffee','nature','culture','books','drinks','shops'],
+    aa: ['food','coffee','nature','culture','books','drinks'],
+    cv: ['food','coffee','nature','culture','books','drinks']
+  };
+  const idx = catMap[city].indexOf(cat);
+  if (tabs[idx]) tabs[idx].classList.add('active');
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
